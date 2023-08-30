@@ -1,7 +1,7 @@
 import { OrganizationsRepository } from "@/repositories/organizationsRepository"
 import { Organization } from "@prisma/client"
 import { hash } from "bcryptjs"
-import { EmailAlreadyExistsError } from "./errors/emailAlreadyExistsError"
+import { EmailAlreadyExistsError } from "../errors/emailAlreadyExistsError"
 import { UsersRepository } from "@/repositories/usersRepository"
 
 interface RegisterOrganizationserviceRequest {

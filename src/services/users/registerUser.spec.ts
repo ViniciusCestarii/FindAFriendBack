@@ -2,21 +2,21 @@ import { expect, describe, it, beforeEach } from "vitest"
 import { compare } from "bcryptjs"
 import { InMemoryUsersRepository } from "@/repositories/inMemory/inMemoryUsersRepository"
 import { RegisterUserService } from "./registerUser"
-import { EmailAlreadyExistsError } from "./errors/emailAlreadyExistsError"
+import { EmailAlreadyExistsError } from "../errors/emailAlreadyExistsError"
 import { InMemoryOrganizationsRepository } from "@/repositories/inMemory/inMemoryOrganizationsRepository"
 
 let inMemoryUsersRepository: InMemoryUsersRepository
 let inMemoryOrganizationsRepository: InMemoryOrganizationsRepository
 let sut: RegisterUserService
 
-describe('Register Service', () => {
+describe('Register User Service', () => {
   beforeEach(() => {
     inMemoryUsersRepository = new InMemoryUsersRepository()
     inMemoryOrganizationsRepository = new InMemoryOrganizationsRepository()
     sut = new RegisterUserService(inMemoryUsersRepository, inMemoryOrganizationsRepository)
   })
 
-  it('should be able to register', async () => {
+  it('should be able to register a user', async () => {
     const { user } = await sut.execute({
       name: 'John Doe',
       email: 'johndoe@example.com',
@@ -38,7 +38,7 @@ describe('Register Service', () => {
     expect(isPasswordCorrectlyHashed).toBe(true)
   })
 
-  it('should not be able to register with same email twice', async () => {
+  it('should not be able to register a user with same email twice', async () => {
     const userEmail = 'johndoe@example.com'
 
     await sut.execute({
