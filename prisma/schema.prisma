@@ -45,10 +45,10 @@ model Organization {
   phone        String?
   description  String?
   city         String
-  CEP          String
+  cep          String
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
-  Pet          Pet[]
+  pets         Pet[]
 
   @@map("organizations")
 }
