@@ -36,6 +36,7 @@ export class InMemoryPetsRepository implements PetsRepository {
     return pet
   }
   async searchMany(params: SearchManyPetsParams): Promise<Pet[]> {
+    const { searchData, page } = params;
     const foundPets = await Promise.all(this.items.map(async pet => {
       const organization = await this.inMemoryOrganizationsRepository.findById(pet.organizationId);
     
@@ -44,17 +45,18 @@ export class InMemoryPetsRepository implements PetsRepository {
       }
     
       return (
-        (!params.city || organization.city === params.city) &&
-        (!params.state || organization.state === params.state) &&
-        (!params.sex || pet.sex === params.sex) &&
-        (!params.size || pet.size === params.size) &&
-        (!params.specie || pet.specie === params.specie) &&
-        (!params.fase || getPetFase({birthDate: pet.birthDate,specie: pet.specie }) === params.fase)
+        (searchData.isAdopted ? pet.isAdopted === searchData.isAdopted : !pet.isAdopted) &&
+        (!searchData.city || organization.city === searchData.city) &&
+        (!searchData.state || organization.state === searchData.state) &&
+        (!searchData.sex || pet.sex === searchData.sex) &&
+        (!searchData.size || pet.size === searchData.size) &&
+        (!searchData.specie || pet.specie === searchData.specie) &&
+        (!searchData.fase || getPetFase({birthDate: pet.birthDate,specie: pet.specie }) === searchData.fase)
 
       );
     }));
   
-    return this.items.filter((_, index) => foundPets[index]);
+    return this.items.filter((_, index) => foundPets[index]).slice((page - 1) * 20, page * 20);
   }
   update(id: string, data: Prisma.PetUpdateInput): Promise<Pet | null> {
     throw new Error("Method not implemented.");

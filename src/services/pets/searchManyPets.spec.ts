@@ -47,9 +47,9 @@ describe('Create Pet Service', () => {
       birthDate: new Date('2021-09-09'),
       description: 'description',
       organizationId: organizationId1,
-      sex:"MALE",
-      size:"SMALL",
-      specie:"DOG",
+      sex: "MALE",
+      size: "SMALL",
+      specie: "DOG",
     })
 
     inMemoryPetsRepository.create({
@@ -57,9 +57,9 @@ describe('Create Pet Service', () => {
       birthDate: new Date('2021-09-09'),
       description: 'description',
       organizationId: organizationId1,
-      sex:"MALE",
-      size:"SMALL",
-      specie:"DOG",
+      sex: "MALE",
+      size: "SMALL",
+      specie: "DOG",
     })
 
     inMemoryPetsRepository.create({
@@ -67,13 +67,17 @@ describe('Create Pet Service', () => {
       birthDate: new Date('2021-09-09'),
       description: 'description',
       organizationId: organizationId2,
-      sex:"MALE",
-      size:"SMALL",
-      specie:"DOG",
+      sex: "MALE",
+      size: "SMALL",
+      specie: "DOG",
     })
 
     const { pets } = await sut.execute({
-      city: 'Natal',
+      searchData: {
+        city: 'Natal',
+        size: "SMALL",
+      },
+      page: 1
     })
 
     expect(pets).toHaveLength(2)
@@ -85,9 +89,9 @@ describe('Create Pet Service', () => {
       birthDate: new Date('2021-09-09'),
       description: 'description',
       organizationId: organizationId1,
-      sex:"MALE",
-      size:"SMALL",
-      specie:"DOG",
+      sex: "MALE",
+      size: "SMALL",
+      specie: "DOG",
     })
 
     inMemoryPetsRepository.create({
@@ -95,9 +99,9 @@ describe('Create Pet Service', () => {
       birthDate: new Date('2021-09-09'),
       description: 'description',
       organizationId: organizationId1,
-      sex:"MALE",
-      size:"SMALL",
-      specie:"DOG",
+      sex: "MALE",
+      size: "SMALL",
+      specie: "DOG",
     })
 
     inMemoryPetsRepository.create({
@@ -105,9 +109,9 @@ describe('Create Pet Service', () => {
       birthDate: new Date('2021-09-09'),
       description: 'description',
       organizationId: "i wont appear",
-      sex:"MALE",
-      size:"SMALL",
-      specie:"DOG",
+      sex: "MALE",
+      size: "SMALL",
+      specie: "DOG",
     })
 
     inMemoryPetsRepository.create({
@@ -115,9 +119,9 @@ describe('Create Pet Service', () => {
       birthDate: new Date('2021-09-09'),
       description: 'description',
       organizationId: organizationId2,
-      sex:"MALE",
-      size:"SMALL",
-      specie:"DOG",
+      sex: "MALE",
+      size: "SMALL",
+      specie: "DOG",
     })
 
     inMemoryPetsRepository.create({
@@ -125,13 +129,16 @@ describe('Create Pet Service', () => {
       birthDate: new Date('2021-09-09'),
       description: 'description',
       organizationId: "i wont appear",
-      sex:"MALE",
-      size:"SMALL",
-      specie:"DOG",
+      sex: "MALE",
+      size: "SMALL",
+      specie: "DOG",
     })
 
     const { pets } = await sut.execute({
-      state: 'RN',
+      searchData: {
+        state: 'RN',
+      },
+      page: 1
     })
 
     expect(pets).toHaveLength(3)
@@ -143,9 +150,9 @@ describe('Create Pet Service', () => {
       birthDate: new Date('2021-09-09'),
       description: 'description',
       organizationId: organizationId1,
-      sex:"FEMALE",
-      size:"SMALL",
-      specie:"DOG",
+      sex: "FEMALE",
+      size: "SMALL",
+      specie: "DOG",
     })
 
     inMemoryPetsRepository.create({
@@ -153,9 +160,9 @@ describe('Create Pet Service', () => {
       birthDate: new Date('2021-09-09'),
       description: 'description',
       organizationId: organizationId1,
-      sex:"MALE",
-      size:"SMALL",
-      specie:"DOG",
+      sex: "MALE",
+      size: "SMALL",
+      specie: "DOG",
     })
 
     inMemoryPetsRepository.create({
@@ -163,9 +170,9 @@ describe('Create Pet Service', () => {
       birthDate: new Date('2021-09-09'),
       description: 'description',
       organizationId: "i wont appear",
-      sex:"MALE",
-      size:"SMALL",
-      specie:"DOG",
+      sex: "MALE",
+      size: "SMALL",
+      specie: "DOG",
     })
 
     inMemoryPetsRepository.create({
@@ -173,9 +180,9 @@ describe('Create Pet Service', () => {
       birthDate: new Date('2021-09-09'),
       description: 'description',
       organizationId: organizationId2,
-      sex:"MALE",
-      size:"SMALL",
-      specie:"BIRD",
+      sex: "MALE",
+      size: "SMALL",
+      specie: "BIRD",
     })
 
     inMemoryPetsRepository.create({
@@ -183,9 +190,9 @@ describe('Create Pet Service', () => {
       birthDate: new Date('2021-09-09'),
       description: 'description',
       organizationId: organizationId2,
-      sex:"MALE",
-      size:"MEDIUM",
-      specie:"DOG",
+      sex: "MALE",
+      size: "MEDIUM",
+      specie: "DOG",
     })
 
     inMemoryPetsRepository.create({
@@ -193,14 +200,17 @@ describe('Create Pet Service', () => {
       birthDate: new Date('2021-09-09'),
       description: 'description',
       organizationId: "i wont appear",
-      sex:"MALE",
-      size:"SMALL",
-      specie:"DOG",
+      sex: "MALE",
+      size: "SMALL",
+      specie: "DOG",
     })
 
     const { pets } = await sut.execute({
-      fase:"YOUNG",
-      size:"SMALL",
+      searchData: {
+        fase: "YOUNG",
+        size: "SMALL",
+      },
+      page: 1
     })
 
     expect(pets).toHaveLength(2)
