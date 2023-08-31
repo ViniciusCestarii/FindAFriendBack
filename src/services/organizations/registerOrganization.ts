@@ -1,5 +1,5 @@
 import { OrganizationsRepository } from "@/repositories/organizationsRepository"
-import { Organization, Prisma } from "@prisma/client"
+import { Organization } from "@prisma/client"
 import { hash } from "bcryptjs"
 import { EmailAlreadyExistsError } from "../errors/emailAlreadyExistsError"
 
@@ -39,7 +39,8 @@ export class RegisterOrganizationservice {
       phone,
       state,
       street,
-      passwordHash
+      passwordHash,
+      description
     })
 
     return {

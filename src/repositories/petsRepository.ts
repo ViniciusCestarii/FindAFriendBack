@@ -1,8 +1,9 @@
+import { SearchManyPetsParams } from "@/types/petTypes";
 import { Pet, Prisma } from "@prisma/client";
 
 export interface PetsRepository {
-  create(data: Prisma.PetCreateInput) : Promise<Pet>
+  create(data: Prisma.PetUncheckedCreateInput) : Promise<Pet>
   findById(id: string) : Promise<Pet | null>
-  searchManyByCity(city: string) : Promise<Pet[]>
+  searchMany(location: SearchManyPetsParams) : Promise<Pet[]>
   update(id: string, data: Prisma.PetUpdateInput) : Promise<Pet | null>
 }

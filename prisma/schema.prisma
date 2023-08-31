@@ -30,12 +30,6 @@ enum Size {
   LARGE
 }
 
-enum Age {
-  PUPPY
-  ADULT
-  SENIOR
-}
-
 model Pet {
   id             String       @id @default(uuid())
   name           String
@@ -43,7 +37,7 @@ model Pet {
   description    String?
   specie         Specie
   size           Size
-  age            Age
+  birthDate      DateTime     @map("birth_date")
   createdAt      DateTime     @default(now()) @map("created_at")
   updatedAt      DateTime     @updatedAt @map("updated_at")
   isAdopted      Boolean      @default(false) @map("is_adopted")
