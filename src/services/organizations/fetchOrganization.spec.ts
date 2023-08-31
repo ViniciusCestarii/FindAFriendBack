@@ -33,7 +33,7 @@ describe('Fetch Organization Service', () => {
     expect(organization.id).toEqual(expect.any(String))
   })
 
-  it('should be able to fetch a non-existing organization', async () => {
+  it('should not be able to fetch a non-existing organization', async () => {
 
     await expect(
       sut.execute("non-existent-organization-id")
