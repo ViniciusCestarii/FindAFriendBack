@@ -12,7 +12,7 @@ export class FetchPetService {
   async execute(id: string) : Promise<FetchPetServiceResponse> {
   
     const pet = await this.petsRepository.findById(id)
-console.log(pet)
+
     if(!pet){
       throw new ResourceNotFound()
     }

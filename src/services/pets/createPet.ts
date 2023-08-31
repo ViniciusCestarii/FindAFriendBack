@@ -10,6 +10,7 @@ interface CreatePetServiceRequest {
   specie: $Enums.Specie,
   isAdopted?: boolean,
   organizationId: string,
+  imagesUrls?: string[]
 }
 
 interface CreatePetServiceResponse {
@@ -19,7 +20,7 @@ interface CreatePetServiceResponse {
 export class CreatePetService {
   constructor(private petsRepository: PetsRepository) {}
 
-  async execute({ name, birthDate, description, isAdopted, organizationId, sex, size, specie }: CreatePetServiceRequest) : Promise<CreatePetServiceResponse> {
+  async execute({ name, birthDate, description, isAdopted, organizationId, sex, size, specie, imagesUrls }: CreatePetServiceRequest) : Promise<CreatePetServiceResponse> {
   
     const pet = await this.petsRepository.create({
       birthDate,
@@ -29,7 +30,10 @@ export class CreatePetService {
       organizationId,
       size,
       specie,
-      isAdopted
+      isAdopted,
+      images: {
+        create: imagesUrls?.map(url => ({url}))
+      }
     })
 
     return {

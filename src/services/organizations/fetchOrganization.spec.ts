@@ -26,6 +26,9 @@ describe('Fetch Organization Service', () => {
       state: 'RN',
       street: 'Rua',
       id: organizationId,
+      images: {
+        create: [{url: 'image-url'}, {url: 'image-url'}]
+      }
     })
 
     const { organization } = await sut.execute(organizationId)

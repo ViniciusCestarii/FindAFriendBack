@@ -13,6 +13,7 @@ interface RegisterOrganizationServiceRequest {
   state: string
   street: string
   description?: string
+  imageUrls?: string[]
 }
 
 interface RegisterOrganizationServiceResponse {
@@ -22,7 +23,7 @@ interface RegisterOrganizationServiceResponse {
 export class RegisterOrganizationService {
   constructor(private organizationsRepository: OrganizationsRepository) {}
 
-  async execute({ name, cep, city, email, password, phone, state, street, description }: RegisterOrganizationServiceRequest) : Promise<RegisterOrganizationServiceResponse> {
+  async execute({ name, cep, city, email, password, phone, state, street, description, imageUrls }: RegisterOrganizationServiceRequest) : Promise<RegisterOrganizationServiceResponse> {
     const passwordHash = await hash(password, 6)
   
     const organizationWithSameEmail = await this.organizationsRepository.findByEmail(email)
@@ -40,7 +41,10 @@ export class RegisterOrganizationService {
       state,
       street,
       passwordHash,
-      description
+      description,
+      images:{
+        create: imageUrls?.map(url => ({url}))
+      }
     })
 
     return {
