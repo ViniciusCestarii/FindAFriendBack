@@ -22,6 +22,9 @@ describe('Authenticate Organization Service', () => {
       passwordHash: await hash('123456', 6),
       cep: '123456',
       city: 'Natal',
+      phone: '123456',
+      state: 'RN',
+      street: 'Rua',
     })
 
     const { organization } = await sut.execute({
@@ -47,6 +50,9 @@ describe('Authenticate Organization Service', () => {
       passwordHash: await hash('123456', 6),
       cep: '123456',
       city: 'Natal',
+      phone: '123456',
+      state: 'RN',
+      street: 'Rua',
     })
 
     expect(async () => await sut.execute({
