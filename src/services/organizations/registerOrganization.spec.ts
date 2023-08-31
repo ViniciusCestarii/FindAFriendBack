@@ -1,16 +1,16 @@
 import { expect, describe, it, beforeEach } from "vitest"
 import { compare } from "bcryptjs"
 import { InMemoryOrganizationsRepository } from "@/repositories/inMemory/inMemoryOrganizationsRepository"
-import { RegisterOrganizationservice } from "./registerOrganization"
+import { RegisterOrganizationService } from "./registerOrganization"
 import { EmailAlreadyExistsError } from "../errors/emailAlreadyExistsError"
 
 let inMemoryOrganizationsRepository: InMemoryOrganizationsRepository
-let sut: RegisterOrganizationservice
+let sut: RegisterOrganizationService
 
 describe('Register Organization Service', () => {
   beforeEach(() => {
     inMemoryOrganizationsRepository = new InMemoryOrganizationsRepository()
-    sut = new RegisterOrganizationservice(inMemoryOrganizationsRepository)
+    sut = new RegisterOrganizationService(inMemoryOrganizationsRepository)
   })
 
   it('should be able to register a organization', async () => {

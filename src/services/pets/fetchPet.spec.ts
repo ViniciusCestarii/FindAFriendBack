@@ -1,32 +1,43 @@
 import { expect, describe, it, beforeEach } from "vitest"
 import { InMemoryPetsRepository } from "@/repositories/inMemory/inMemoryPetsRepository"
-import { CreatePetService } from "./createPet"
 import { InMemoryOrganizationsRepository } from "@/repositories/inMemory/inMemoryOrganizationsRepository"
+import { FetchPetService } from "./fetchPet"
+import { ResourceNotFound } from "../errors/resourceNotFound"
 
 // Unit test
 
 let inMemoryPetsRepository: InMemoryPetsRepository
 let inMemoryOrganizationsRepository: InMemoryOrganizationsRepository
-let sut: CreatePetService
+let sut: FetchPetService
 
-describe('Create Pet Service', () => {
+describe('Fetch Pet Service', () => {
   beforeEach(() => {
     inMemoryOrganizationsRepository = new InMemoryOrganizationsRepository()
     inMemoryPetsRepository = new InMemoryPetsRepository(inMemoryOrganizationsRepository)
-    sut = new CreatePetService(inMemoryPetsRepository)
+    sut = new FetchPetService(inMemoryPetsRepository)
   })
 
-  it('should be able to create a pet', async () => {
-    const { pet } = await sut.execute({
-      name: 'John Doe',
+  it('should be able to fetch a pet by id', async () => {
+    const petId = 'petId'
+
+    inMemoryPetsRepository.create({
       birthDate: new Date('2021-09-09'),
-      description: 'description',
+      name: 'John Doe',
       organizationId: 'organizationId',
       sex:"FEMALE",
-      size:"SMALL",
-      specie:"DOG",
+      size:"LARGE",
+      specie:"REPTILE",
+      id: petId,
     })
 
+    const { pet } = await sut.execute(petId)
+
     expect(pet.id).toEqual(expect.any(String))
+  })
+
+  it('should not be able to fetch a non-existent pet', async () => {
+    await expect(
+    sut.execute("non-existent-pet-id")
+    ).rejects.toBeInstanceOf(ResourceNotFound)
   })
 })

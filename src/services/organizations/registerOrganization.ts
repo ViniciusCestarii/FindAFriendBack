@@ -3,7 +3,7 @@ import { Organization } from "@prisma/client"
 import { hash } from "bcryptjs"
 import { EmailAlreadyExistsError } from "../errors/emailAlreadyExistsError"
 
-interface RegisterOrganizationserviceRequest {
+interface RegisterOrganizationServiceRequest {
   name: string
   email: string
   password: string
@@ -15,14 +15,14 @@ interface RegisterOrganizationserviceRequest {
   description?: string
 }
 
-interface RegisterOrganizationserviceResponse {
+interface RegisterOrganizationServiceResponse {
   organization: Organization
 }
 
-export class RegisterOrganizationservice {
+export class RegisterOrganizationService {
   constructor(private organizationsRepository: OrganizationsRepository) {}
 
-  async execute({ name, cep, city, email, password, phone, state, street, description }: RegisterOrganizationserviceRequest) : Promise<RegisterOrganizationserviceResponse> {
+  async execute({ name, cep, city, email, password, phone, state, street, description }: RegisterOrganizationServiceRequest) : Promise<RegisterOrganizationServiceResponse> {
     const passwordHash = await hash(password, 6)
   
     const organizationWithSameEmail = await this.organizationsRepository.findByEmail(email)

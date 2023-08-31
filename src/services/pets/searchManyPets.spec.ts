@@ -12,7 +12,7 @@ let sut: SearchManyPetsService
 const organizationId1 = 'organizationId'
 const organizationId2 = 'organizationId2'
 
-describe('Create Pet Service', () => {
+describe('Search Many Pets Service', () => {
   beforeEach(() => {
     inMemoryOrganizationsRepository = new InMemoryOrganizationsRepository()
     inMemoryOrganizationsRepository.create({
