@@ -3,17 +3,14 @@ import { compare } from "bcryptjs"
 import { InMemoryOrganizationsRepository } from "@/repositories/inMemory/inMemoryOrganizationsRepository"
 import { RegisterOrganizationservice } from "./registerOrganization"
 import { EmailAlreadyExistsError } from "../errors/emailAlreadyExistsError"
-import { InMemoryUsersRepository } from "@/repositories/inMemory/inMemoryUsersRepository"
 
 let inMemoryOrganizationsRepository: InMemoryOrganizationsRepository
-let inMemoryUsersRepository: InMemoryUsersRepository
 let sut: RegisterOrganizationservice
 
 describe('Register Organization Service', () => {
   beforeEach(() => {
     inMemoryOrganizationsRepository = new InMemoryOrganizationsRepository()
-    inMemoryUsersRepository = new InMemoryUsersRepository()
-    sut = new RegisterOrganizationservice(inMemoryOrganizationsRepository, inMemoryUsersRepository)
+    sut = new RegisterOrganizationservice(inMemoryOrganizationsRepository)
   })
 
   it('should be able to register a organization', async () => {
@@ -23,6 +20,9 @@ describe('Register Organization Service', () => {
       password: '123456',
       cep: '123456',
       city: 'Natal',
+      phone: '123456',
+      state: 'RN',
+      street: 'Rua',
     })
 
     expect(organization.id).toEqual(expect.any(String))
@@ -35,6 +35,9 @@ describe('Register Organization Service', () => {
       password: '123456',
       cep: '123456',
       city: 'Natal',
+      phone: '123456',
+      state: 'RN',
+      street: 'Rua',
     })
 
     const isPasswordCorrectlyHashed = await compare('123456', organization.passwordHash)
@@ -51,6 +54,9 @@ describe('Register Organization Service', () => {
       password: '123456',
       cep: '123456',
       city: 'Natal',
+      phone: '123456',
+      state: 'RN',
+      street: 'Rua',
     })
 
     await expect(() => 
@@ -60,25 +66,10 @@ describe('Register Organization Service', () => {
         password: '123456',
         cep: '123456',
         city: 'Natal',
+        phone: '123456',
+        state: 'RN',
+        street: 'Rua',
       })
     ).rejects.toBeInstanceOf(EmailAlreadyExistsError)
-
-    const userEmail = "jonsanDoe@gmail.com"
-
-    inMemoryUsersRepository.create({
-      name: 'John Doe',
-      email: userEmail,
-      passwordHash: '123456',
-    })
-
-    await expect(() => 
-    sut.execute({
-      name: 'John Doe',
-      email: userEmail,
-      password: '123456',
-      cep: '123456',
-      city: 'Natal',
-    })
-  ).rejects.toBeInstanceOf(EmailAlreadyExistsError)
   })
 })

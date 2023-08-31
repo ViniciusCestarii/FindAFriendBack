@@ -15,8 +15,10 @@ export class InMemoryOrganizationsRepository implements OrganizationsRepository 
       updatedAt: new Date(),
       cep: data.cep,
       city: data.city,
+      phone: data.phone,
+      state: data.state,
+      street: data.street,
       description: data.description ?? null,
-      phone: data.phone ?? null,
     }
     this.items.push(organization)
 

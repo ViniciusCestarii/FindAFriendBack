@@ -6,28 +6,44 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id           String   @id @default(uuid())
-  email        String   @unique
-  name         String
-  passwordHash String   @map("password_hash")
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @updatedAt @map("updated_at")
+enum Sex {
+  MALE
+  FEMALE
+}
 
-  @@map("users")
+enum Specie {
+  DOG
+  CAT
+  BIRD
+  RODENT
+  REPTILE
+  OTHER
+}
+
+enum Size {
+  SMALL
+  MEDIUM
+  LARGE
+}
+
+enum Age {
+  PUPPY
+  ADULT
+  SENIOR
 }
 
 model Pet {
   id             String       @id @default(uuid())
   name           String
-  sex            String
+  sex            Sex
   description    String?
-  color          String?
-  birthDate      DateTime?    @map("birth_date")
+  specie         Specie
+  size           Size
+  age            Age
   createdAt      DateTime     @default(now()) @map("created_at")
   updatedAt      DateTime     @updatedAt @map("updated_at")
   isAdopted      Boolean      @default(false) @map("is_adopted")
@@ -42,9 +58,11 @@ model Organization {
   name         String
   email        String   @unique
   passwordHash String   @map("password_hash")
-  phone        String?
+  phone        String
   description  String?
+  street       String
   city         String
+  state        String
   cep          String
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
