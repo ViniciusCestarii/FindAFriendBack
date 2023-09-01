@@ -1,14 +1,14 @@
 import { Prisma, Pet, $Enums } from "@prisma/client";
 import { PetsRepository } from "../petsRepository";
 import { randomUUID } from "node:crypto";
-import { SearchManyPetsParams } from "@/types/petTypes";
+import { CreatePetType, SearchManyPetsParams, UpdatePetType } from "@/types/petTypes";
 import { InMemoryOrganizationsRepository } from "./inMemoryOrganizationsRepository";
 import { getPetFase } from "@/utils/getPetFase";
 
 export class InMemoryPetsRepository implements PetsRepository {
   constructor(private inMemoryOrganizationsRepository: InMemoryOrganizationsRepository) {}
   public items: Pet[] = []
-  async create(data: Prisma.PetUncheckedCreateInput) {
+  async create(data: CreatePetType) {
     const pet : Pet = {
       id: data.id ?? randomUUID(),
       birthDate: new Date(data.birthDate),
@@ -22,6 +22,7 @@ export class InMemoryPetsRepository implements PetsRepository {
       updatedAt: new Date(),
       description: data.description ?? null,
     }
+
     this.items.push(pet)
 
     return pet
@@ -58,7 +59,25 @@ export class InMemoryPetsRepository implements PetsRepository {
   
     return this.items.filter((_, index) => foundPets[index]).slice((page - 1) * 20, page * 20);
   }
-  update(id: string, data: Prisma.PetUpdateInput): Promise<Pet | null> {
-    throw new Error("Method not implemented.");
+  async update(pet : UpdatePetType): Promise<Pet> {
+    const petIndex = this.items.findIndex(item => item.id === pet.id)
+
+    const updatedPet : Pet = {
+      birthDate: pet.birthDate,
+      isAdopted: pet.isAdopted,
+      organizationId: pet.organizationId,
+      size: pet.size,
+      sex: pet.sex,
+      specie: pet.specie,
+      createdAt: this.items[petIndex].createdAt,
+      description: pet.description,
+      name: pet.name,
+      id: pet.id,
+      updatedAt: this.items[petIndex].updatedAt,
+    }
+
+    this.items[petIndex] = updatedPet
+
+    return updatedPet
   }
 }

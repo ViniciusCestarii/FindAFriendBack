@@ -13,4 +13,30 @@ export interface SearchManyPetsParams {
   page: number
 }
 
+export interface CreatePetType {
+  id?: string | undefined;
+  name: string;
+  sex: $Enums.Sex;
+  description?: string | null;
+  specie: $Enums.Specie;
+  size: $Enums.Size;
+  birthDate: Date;
+  isAdopted?: boolean;
+  organizationId: string;
+  imageUrls?: string[] | undefined;
+}
+
+export interface UpdatePetType {
+  id: string;
+  name: string;
+  sex: $Enums.Sex;
+  description: string | null;
+  specie: $Enums.Specie;
+  size: $Enums.Size;
+  birthDate: Date;
+  isAdopted: boolean;
+  organizationId: string;
+  imageUrls: string[] | undefined;
+}
+
 export type fase = "BABY" | "YOUNG" | "ADULT" | "SENIOR"
