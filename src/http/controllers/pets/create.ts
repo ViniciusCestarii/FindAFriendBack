@@ -18,11 +18,11 @@ export const create = async (request: FastifyRequest, reply: FastifyReply) => {
 
   const { name, description, birthDate, organizationId, sex, size, specie, imageUrls, isAdopted } = createPetBodySchema.parse(request.body)
 
-    const createGymService = makeCreatePetService()
+    const createPetService = makeCreatePetService()
 
     try {
 
-    await createGymService.execute({ 
+    await createPetService.execute({ 
       name,
       description,
       birthDate,

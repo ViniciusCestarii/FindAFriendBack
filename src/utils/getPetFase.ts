@@ -25,7 +25,7 @@ export const getPetFase = ({ birthDate, specie }: getPetFaseRequest) => {
   }
 }
 
-const getAgeInMonths = (birthDate: Date): number => {
+export const getAgeInMonths = (birthDate: Date): number => {
   const currentDate = dayjs();
   const formattedBirthDate = dayjs(birthDate, 'YYYY-MM-DD');
   const ageInMonths = currentDate.diff(formattedBirthDate, 'month', true);

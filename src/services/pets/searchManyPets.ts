@@ -11,18 +11,8 @@ export class SearchManyPetsService {
 
   async execute({ searchData, page }: SearchManyPetsParams): Promise<SearchManyPetsServiceResponse> {
 
-    const { city, state, fase, sex, size, specie, isAdopted } = searchData
-
     const pets = await this.petsRepository.searchMany({
-      searchData: {
-        city,
-        state,
-        fase,
-        sex,
-        size,
-        specie,
-        isAdopted
-      },
+      searchData,
       page
     })
 

@@ -2,6 +2,7 @@ import { $Enums } from "@prisma/client"
 
 export interface SearchManyPetsParams {
   searchData: {
+  name?: string
   city?: string
   state?: string
   fase?: fase
