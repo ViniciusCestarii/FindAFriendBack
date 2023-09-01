@@ -22,24 +22,16 @@ interface CreatePetServiceResponse {
 export class CreatePetService {
   constructor(private petsRepository: PetsRepository, private organizationsRepository: OrganizationsRepository) {}
 
-  async execute({ name, birthDate, description, isAdopted, organizationId, sex, size, specie, imageUrls }: CreatePetServiceRequest) : Promise<CreatePetServiceResponse> {
+  async execute(data : CreatePetServiceRequest) : Promise<CreatePetServiceResponse> {
 
-    const organization = await this.organizationsRepository.findById(organizationId)
+    const organization = await this.organizationsRepository.findById(data.organizationId)
 
     if(!organization){
       throw new ResourceNotFound()
     }
   
     const pet = await this.petsRepository.create({
-      birthDate,
-      name,
-      description,
-      sex,
-      organizationId,
-      size,
-      specie,
-      isAdopted,
-      imageUrls
+      ...data
     })
 
     return {

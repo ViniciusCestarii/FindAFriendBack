@@ -1,10 +1,37 @@
 import { Prisma, Organization } from "@prisma/client";
 import { OrganizationsRepository } from "../organizationsRepository";
 import { randomUUID } from "node:crypto";
+import { UpdateOrganizationType } from "@/types/organizationTypes";
+import { hash } from "bcryptjs";
 
 export class InMemoryOrganizationsRepository implements OrganizationsRepository {
   public items: Organization[] = []
 
+  async update(organization: UpdateOrganizationType): Promise<Organization> {
+    const organizationIndex = this.items.findIndex(item => item.id === organization.id)
+
+    const passwordHash = await hash(organization.password, 6)
+
+    const updatedOrganization : Organization = {
+      cep: organization.cep,
+      city: organization.city,
+      email: organization.email,
+      id: organization.id,
+      name: organization.name,
+      passwordHash: passwordHash,
+      phone: organization.phone,
+      description: organization.description,
+      state: organization.state,
+      street: organization.street,
+      createdAt: this.items[organizationIndex].createdAt,
+      updatedAt: this.items[organizationIndex].updatedAt,
+    }
+
+    this.items[organizationIndex] = updatedOrganization
+
+    return updatedOrganization
+  }
+  
   async create(data: Prisma.OrganizationCreateInput) {
     const organization : Organization = {
       id: data.id ?? randomUUID(),

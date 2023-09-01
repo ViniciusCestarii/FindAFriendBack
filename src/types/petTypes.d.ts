@@ -17,7 +17,7 @@ export interface CreatePetType {
   id?: string | undefined;
   name: string;
   sex: $Enums.Sex;
-  description?: string | null;
+  description: string;
   specie: $Enums.Specie;
   size: $Enums.Size;
   birthDate: Date;
@@ -30,7 +30,7 @@ export interface UpdatePetType {
   id: string;
   name: string;
   sex: $Enums.Sex;
-  description: string | null;
+  description: string;
   specie: $Enums.Specie;
   size: $Enums.Size;
   birthDate: Date;

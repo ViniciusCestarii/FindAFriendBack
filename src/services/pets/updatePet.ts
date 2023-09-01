@@ -10,25 +10,16 @@ interface UpdatePetServiceResponse {
 export class UpdatePetService {
   constructor(private petsRepository: PetsRepository) { }
 
-  async execute({ name, birthDate, description, isAdopted, organizationId, sex, size, specie, imageUrls, id }: UpdatePetType): Promise<UpdatePetServiceResponse> {
+  async execute(data: UpdatePetType): Promise<UpdatePetServiceResponse> {
 
-    const pet = await this.petsRepository.findById(id)
+    const pet = await this.petsRepository.findById(data.id)
 
     if (!pet) {
       throw new ResourceNotFound()
     }
 
     const petToUpdate: UpdatePetType = {
-      id,
-      name,
-      description,
-      birthDate,
-      sex,
-      size,
-      specie,
-      isAdopted,
-      organizationId,
-      imageUrls
+      ...data
     }
 
     const updatedPet = await this.petsRepository.update(petToUpdate)

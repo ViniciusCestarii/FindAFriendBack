@@ -11,14 +11,25 @@ export class PrismaPetsRepository implements PetsRepository {
     throw new Error("Method not implemented.");
   }
   async create(data : CreatePetType) {
+    const createImages : Prisma.ImageCreateManyPetInput[] = data.imageUrls?.map(url => ({ url })) ?? []
+    
     const pet = await prisma.pet.create({
       data: {
-        ...data,
+        name: data.name,
+        description: data.description,
+        birthDate: new Date(data.birthDate),
+        sex: data.sex,
+        size: data.size,
+        specie: data.specie,
+        isAdopted: data.isAdopted,
+        organizationId: data.organizationId,
         images: {
-          create: data?.imageUrls?.map(url => ({url}))
-        }
-      }
-    })
+          createMany: {
+            data: createImages,
+          },
+        },
+      },
+    });
 
     return pet
   }

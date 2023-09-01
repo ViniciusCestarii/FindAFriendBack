@@ -2,18 +2,20 @@ import { OrganizationsRepository } from "@/repositories/organizationsRepository"
 import { Organization } from "@prisma/client"
 import { hash } from "bcryptjs"
 import { EmailAlreadyExistsError } from "../errors/emailAlreadyExistsError"
+import { CreateOrganizationType } from "@/types/organizationTypes"
 
-interface RegisterOrganizationServiceRequest {
+export interface RegisterOrganizationServiceRequest {
+  id?: string | undefined
   name: string
   email: string
   password: string
-  cep: string
-  city: string
   phone: string
-  state: string
+  description?: string | null
   street: string
-  description?: string
-  imageUrls?: string[]
+  city: string
+  state: string
+  cep: string
+  imageUrls?: string[] | undefined
 }
 
 interface RegisterOrganizationServiceResponse {
@@ -23,28 +25,18 @@ interface RegisterOrganizationServiceResponse {
 export class RegisterOrganizationService {
   constructor(private organizationsRepository: OrganizationsRepository) {}
 
-  async execute({ name, cep, city, email, password, phone, state, street, description, imageUrls }: RegisterOrganizationServiceRequest) : Promise<RegisterOrganizationServiceResponse> {
-    const passwordHash = await hash(password, 6)
+  async execute(data: RegisterOrganizationServiceRequest) : Promise<RegisterOrganizationServiceResponse> {
+    const passwordHash = await hash(data.password, 6)
   
-    const organizationWithSameEmail = await this.organizationsRepository.findByEmail(email)
+    const organizationWithSameEmail = await this.organizationsRepository.findByEmail(data.email)
   
     if (organizationWithSameEmail) {
       throw new EmailAlreadyExistsError()
     }
   
     const organization = await this.organizationsRepository.create({
-      cep,
-      city,
-      email,
-      name,
-      phone,
-      state,
-      street,
-      passwordHash,
-      description,
-      images:{
-        create: imageUrls?.map(url => ({url}))
-      }
+      ...data,
+      passwordHash
     })
 
     return {
