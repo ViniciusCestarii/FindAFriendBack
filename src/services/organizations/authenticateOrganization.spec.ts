@@ -17,6 +17,7 @@ describe('Authenticate Organization Service', () => {
 
   it('should be able to authenticate', async () => {
     await inMemoryOrganizationsRepository.create({
+      organization: {
       name: 'John Doe',
       email: 'johndoe@example.com',
       passwordHash: await hash('123456', 6),
@@ -25,6 +26,7 @@ describe('Authenticate Organization Service', () => {
       phone: '123456',
       state: 'RN',
       street: 'Rua',
+      }
     })
 
     const { organization } = await sut.execute({
@@ -45,6 +47,7 @@ describe('Authenticate Organization Service', () => {
 
   it('should not be able to authenticate with wrong password', async () => {
     await inMemoryOrganizationsRepository.create({
+      organization: {
       name: 'John Doe',
       email: 'johndoe@example.com',
       passwordHash: await hash('123456', 6),
@@ -53,6 +56,7 @@ describe('Authenticate Organization Service', () => {
       phone: '123456',
       state: 'RN',
       street: 'Rua',
+      }
     })
 
     expect(async () => await sut.execute({

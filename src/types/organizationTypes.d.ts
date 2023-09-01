@@ -1,3 +1,5 @@
+import { Prisma } from '@prisma/client'
+
 export interface UpdateOrganizationType {
   id: string
   name: string
@@ -13,15 +15,6 @@ export interface UpdateOrganizationType {
 }
 
 export interface CreateOrganizationType {
-  id?: string | undefined
-  name: string
-  email: string
-  passwordHash: string
-  phone: string
-  description?: string | null
-  street: string
-  city: string
-  state: string
-  cep: string
+  organization: Prisma.OrganizationUncheckedCreateInput,
   imageUrls?: string[] | undefined
 }

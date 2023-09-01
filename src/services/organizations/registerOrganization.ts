@@ -5,6 +5,7 @@ import { EmailAlreadyExistsError } from "../errors/emailAlreadyExistsError"
 import { CreateOrganizationType } from "@/types/organizationTypes"
 
 export interface RegisterOrganizationServiceRequest {
+  organization: {
   id?: string | undefined
   name: string
   email: string
@@ -15,32 +16,36 @@ export interface RegisterOrganizationServiceRequest {
   city: string
   state: string
   cep: string
+  }
   imageUrls?: string[] | undefined
 }
 
 interface RegisterOrganizationServiceResponse {
-  organization: Organization
+  createdOrganization: Organization
 }
 
 export class RegisterOrganizationService {
   constructor(private organizationsRepository: OrganizationsRepository) {}
 
-  async execute(data: RegisterOrganizationServiceRequest) : Promise<RegisterOrganizationServiceResponse> {
-    const passwordHash = await hash(data.password, 6)
+  async execute({organization, imageUrls}: RegisterOrganizationServiceRequest) : Promise<RegisterOrganizationServiceResponse> {
+    const passwordHash = await hash(organization.password, 6)
   
-    const organizationWithSameEmail = await this.organizationsRepository.findByEmail(data.email)
+    const organizationWithSameEmail = await this.organizationsRepository.findByEmail(organization.email)
   
     if (organizationWithSameEmail) {
       throw new EmailAlreadyExistsError()
     }
   
-    const organization = await this.organizationsRepository.create({
-      ...data,
-      passwordHash
-    })
+    const createdOrganization = await this.organizationsRepository.create({
+      organization: {
+      ...organization,
+      passwordHash,
+    },
+    imageUrls
+  })
 
     return {
-      organization
+      createdOrganization
     }
   }
 }

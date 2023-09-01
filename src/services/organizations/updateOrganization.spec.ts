@@ -19,6 +19,7 @@ describe('Update Organization Service', () => {
     const organizationId = "organizationId"
 
     const organization = await inMemoryOrganizationsRepository.create({
+      organization: {
       id: organizationId,
       cep: '123456',
       city: 'Natal',
@@ -28,6 +29,7 @@ describe('Update Organization Service', () => {
       phone: '123456',
       state: 'RN',
       street: 'Rua',
+      }
     })
 
     const { updatedOrganization } = await sut.execute({

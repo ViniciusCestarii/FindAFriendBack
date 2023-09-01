@@ -1,4 +1,5 @@
-import { $Enums } from "@prisma/client"
+import { $Enums, Prisma } from "@prisma/client"
+import { Pet } from "@prisma/client"
 
 export interface SearchManyPetsParams {
   searchData: {
@@ -15,16 +16,8 @@ export interface SearchManyPetsParams {
 }
 
 export interface CreatePetType {
-  id?: string | undefined;
-  name: string;
-  sex: $Enums.Sex;
-  description: string;
-  specie: $Enums.Specie;
-  size: $Enums.Size;
-  birthDate: Date;
-  isAdopted?: boolean;
-  organizationId: string;
-  imageUrls?: string[] | undefined;
+  pet: Prisma.PetUncheckedCreateInput,
+  imageUrls?: string[] | undefined
 }
 
 export interface UpdatePetType {

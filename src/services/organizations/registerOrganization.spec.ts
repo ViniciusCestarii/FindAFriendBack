@@ -14,7 +14,8 @@ describe('Register Organization Service', () => {
   })
 
   it('should be able to register a organization', async () => {
-    const { organization } = await sut.execute({
+    const { createdOrganization } = await sut.execute({
+      organization: {
       name: 'John Doe',
       email: 'johndoe@example.com',
       password: '123456',
@@ -23,13 +24,15 @@ describe('Register Organization Service', () => {
       phone: '123456',
       state: 'RN',
       street: 'Rua',
+      }
     })
 
-    expect(organization.id).toEqual(expect.any(String))
+    expect(createdOrganization.id).toEqual(expect.any(String))
   })
 
   it('should hash organization password upon registration', async () => {
-    const { organization } = await sut.execute({
+    const { createdOrganization } = await sut.execute({
+      organization: {
       name: 'John Doe',
       email: 'johndoe@example.com',
       password: '123456',
@@ -38,9 +41,10 @@ describe('Register Organization Service', () => {
       phone: '123456',
       state: 'RN',
       street: 'Rua',
+      }
     })
 
-    const isPasswordCorrectlyHashed = await compare('123456', organization.passwordHash)
+    const isPasswordCorrectlyHashed = await compare('123456', createdOrganization.passwordHash)
 
     expect(isPasswordCorrectlyHashed).toBe(true)
   })
@@ -49,6 +53,7 @@ describe('Register Organization Service', () => {
     const organizationEmail = 'johndoe@example.com'
 
     await sut.execute({
+      organization: {
       name: 'John Doe',
       email: organizationEmail,
       password: '123456',
@@ -57,10 +62,12 @@ describe('Register Organization Service', () => {
       phone: '123456',
       state: 'RN',
       street: 'Rua',
+      }
     })
 
     await expect(() => 
       sut.execute({
+        organization: {
         name: 'John Doe',
         email: organizationEmail,
         password: '123456',
@@ -69,6 +76,7 @@ describe('Register Organization Service', () => {
         phone: '123456',
         state: 'RN',
         street: 'Rua',
+        }
       })
     ).rejects.toBeInstanceOf(EmailAlreadyExistsError)
   })

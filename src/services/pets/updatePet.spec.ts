@@ -19,6 +19,7 @@ describe('Update Pet Service', () => {
 
   it('should be able to update a pet', async () => {
     const pet = await inMemoryPetsRepository.create({
+      pet: {
       name: 'John Doe',
       birthDate: new Date('2021-09-09'),
       description: 'description',
@@ -26,7 +27,7 @@ describe('Update Pet Service', () => {
       sex: "FEMALE",
       size: "SMALL",
       specie: "DOG",
-    })
+    }})
 
     const { updatedPet } = await sut.execute({
       id: pet.id,

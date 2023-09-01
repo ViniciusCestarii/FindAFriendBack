@@ -15,18 +15,18 @@ interface AuthenticateOrganizationServiceResponse {
 export class AuthenticateOrganizationService {
   constructor(
     private organizationsRepository: OrganizationsRepository
-  ) {}
+  ) { }
 
-  async execute({email, password}: AuthenticateOrganizationServiceRequest): Promise<AuthenticateOrganizationServiceResponse> {
+  async execute({ email, password }: AuthenticateOrganizationServiceRequest): Promise<AuthenticateOrganizationServiceResponse> {
     const organization = await this.organizationsRepository.findByEmail(email)
 
-    if(!organization){
+    if (!organization) {
       throw new InvalidCredentialsError()
     }
 
     const doesPasswordMatches = await compare(password, organization.passwordHash)
 
-    if(!doesPasswordMatches){
+    if (!doesPasswordMatches) {
       throw new InvalidCredentialsError()
     }
 

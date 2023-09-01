@@ -17,6 +17,7 @@ describe('Fetch Organization Service', () => {
     const organizationId = 'organizationId'
 
     inMemoryOrganizationsRepository.create({
+      organization: {
       cep: '123456',
       city: 'Natal',
       email: 'org.@gmail.com',
@@ -26,8 +27,6 @@ describe('Fetch Organization Service', () => {
       state: 'RN',
       street: 'Rua',
       id: organizationId,
-      images: {
-        create: [{url: 'image-url'}, {url: 'image-url'}]
       }
     })
 

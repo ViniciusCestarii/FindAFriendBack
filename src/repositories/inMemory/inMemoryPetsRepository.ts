@@ -8,24 +8,25 @@ import { getPetFase } from "@/utils/getPetFase";
 export class InMemoryPetsRepository implements PetsRepository {
   constructor(private inMemoryOrganizationsRepository: InMemoryOrganizationsRepository) { }
   public items: Pet[] = []
-  async create(data: CreatePetType) {
-    const pet: Pet = {
-      id: data.id ?? randomUUID(),
-      birthDate: new Date(data.birthDate),
-      isAdopted: data.isAdopted ?? false,
-      organizationId: data.organizationId,
-      size: data.size as $Enums.Size,
-      sex: data.sex as $Enums.Sex,
-      specie: data.specie as $Enums.Specie,
-      name: data.name,
+  async create({ pet }: CreatePetType) {
+    console.log(pet)
+    const createdPet: Pet = {
+      id: pet.id ?? randomUUID(),
+      birthDate: new Date(pet.birthDate),
+      isAdopted: pet.isAdopted ?? false,
+      organizationId: pet.organizationId,
+      size: pet.size as $Enums.Size,
+      sex: pet.sex as $Enums.Sex,
+      specie: pet.specie as $Enums.Specie,
+      name: pet.name,
       createdAt: new Date(),
       updatedAt: new Date(),
-      description: data.description ?? null,
+      description: pet.description ?? null,
     }
 
-    this.items.push(pet)
+    this.items.push(createdPet)
 
-    return pet
+    return createdPet
   }
   async findById(id: string): Promise<Pet | null> {
     const pet = this.items.find(pet => pet.id === id)

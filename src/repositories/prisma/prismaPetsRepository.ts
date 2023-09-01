@@ -99,21 +99,15 @@ export class PrismaPetsRepository implements PetsRepository {
 
     return updatedPet
   }
-  async create(data: CreatePetType) {
-    const createImages: Prisma.ImageCreateManyPetInput[] = data.imageUrls?.map(url => ({ url })) ?? []
+  async create({pet, imageUrls}: CreatePetType) {
+    const createImages: Prisma.ImageCreateManyPetInput[] = imageUrls?.map(url => ({ url })) ?? []
 
     //if i was storaging image files in a the database, i would need to create the new images there and pick the urls
 
-    const pet = await prisma.pet.create({
+    const createdPet = await prisma.pet.create({
       data: {
-        name: data.name,
-        description: data.description,
-        birthDate: new Date(data.birthDate),
-        sex: data.sex,
-        size: data.size,
-        specie: data.specie,
-        isAdopted: data.isAdopted,
-        organizationId: data.organizationId,
+        ...pet,
+        birthDate: new Date(pet.birthDate),
         images: {
           createMany: {
             data: createImages,
@@ -122,7 +116,7 @@ export class PrismaPetsRepository implements PetsRepository {
       },
     });
 
-    return pet
+    return createdPet
   }
 
   async findById(id: string): Promise<Pet | null> {

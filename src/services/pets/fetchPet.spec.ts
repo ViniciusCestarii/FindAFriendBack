@@ -21,6 +21,7 @@ describe('Fetch Pet Service', () => {
     const petId = 'petId'
 
     inMemoryPetsRepository.create({
+      pet:{
       birthDate: new Date('2021-09-09'),
       name: 'John Doe',
       organizationId: 'organizationId',
@@ -28,6 +29,7 @@ describe('Fetch Pet Service', () => {
       size:"LARGE",
       specie:"REPTILE",
       id: petId,
+      }
     })
 
     const { pet } = await sut.execute(petId)

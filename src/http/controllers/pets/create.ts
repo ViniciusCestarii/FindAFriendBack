@@ -22,7 +22,8 @@ export const create = async (request: FastifyRequest, reply: FastifyReply) => {
 
     try {
 
-    await createPetService.execute({ 
+    await createPetService.execute({
+      pet: { 
       name,
       description,
       birthDate,
@@ -30,8 +31,9 @@ export const create = async (request: FastifyRequest, reply: FastifyReply) => {
       sex,
       size,
       specie,
-      imageUrls,
       isAdopted
+      },
+      imageUrls
     })
 
     return reply.status(201).send()

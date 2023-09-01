@@ -43,22 +43,14 @@ export class PrismaOrganizationsRepository implements OrganizationsRepository {
 
     return updatedOrganization
   }
-  async create(data: CreateOrganizationType) {
-    const createImages: Prisma.ImageCreateManyPetInput[] = data.imageUrls?.map(url => ({ url })) ?? []
+  async create({organization, imageUrls}: CreateOrganizationType) {
+    const createImages: Prisma.ImageCreateManyPetInput[] = imageUrls?.map(url => ({ url })) ?? []
 
     //if i was storaging image files in a the database, i would need to create the new images there and pick the urls
 
-    const organization = await prisma.organization.create({
+    const createdOrganization = await prisma.organization.create({
       data: {
-        name: data.name,
-        description: data.description,
-        cep: data.cep,
-        city: data.city,
-        email: data.email,
-        passwordHash: data.passwordHash,
-        phone: data.phone,
-        state: data.state,
-        street: data.street,
+        ...organization,
         images: {
           createMany: {
             data: createImages,
@@ -67,7 +59,7 @@ export class PrismaOrganizationsRepository implements OrganizationsRepository {
       },
     });
 
-    return organization
+    return createdOrganization
   }
 
   async findByEmail(email: string) {

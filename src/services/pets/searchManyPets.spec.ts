@@ -16,6 +16,7 @@ describe('Search Many Pets Service', () => {
   beforeEach(() => {
     inMemoryOrganizationsRepository = new InMemoryOrganizationsRepository()
     inMemoryOrganizationsRepository.create({
+      organization: {
       name: 'Dogs Organization',
       cep: '123456',
       city: 'Natal',
@@ -25,8 +26,10 @@ describe('Search Many Pets Service', () => {
       state: 'RN',
       street: 'Rua',
       id: organizationId1,
+      }
     })
     inMemoryOrganizationsRepository.create({
+      organization: {
       name: 'Dogs Organization',
       cep: '123456',
       city: 'Mossoró',
@@ -36,6 +39,7 @@ describe('Search Many Pets Service', () => {
       state: 'RN',
       street: 'Rua',
       id: organizationId2,
+      }
     })
     inMemoryPetsRepository = new InMemoryPetsRepository(inMemoryOrganizationsRepository)
     sut = new SearchManyPetsService(inMemoryPetsRepository)
@@ -43,33 +47,36 @@ describe('Search Many Pets Service', () => {
 
   it('should be able to search pets by its organization city', async () => {
     inMemoryPetsRepository.create({
+      pet: {
       name: 'John Doe',
       birthDate: new Date('2021-09-09'),
       description: 'description',
       organizationId: organizationId1,
       sex: "MALE",
       size: "SMALL",
-      specie: "DOG",
+      specie: "DOG",}
     })
 
     inMemoryPetsRepository.create({
+      pet: {
       name: 'John Doe',
       birthDate: new Date('2021-09-09'),
       description: 'description',
       organizationId: organizationId1,
       sex: "MALE",
       size: "SMALL",
-      specie: "DOG",
+      specie: "DOG",}
     })
 
     inMemoryPetsRepository.create({
+      pet: {
       name: 'John Doe',
       birthDate: new Date('2021-09-09'),
       description: 'description',
       organizationId: organizationId2,
       sex: "MALE",
       size: "SMALL",
-      specie: "DOG",
+      specie: "DOG",}
     })
 
     const { pets } = await sut.execute({
@@ -85,53 +92,58 @@ describe('Search Many Pets Service', () => {
 
   it('should be able to search pets by its organization state', async () => {
     inMemoryPetsRepository.create({
+      pet: {
       name: 'John Doe',
       birthDate: new Date('2021-09-09'),
       description: 'description',
       organizationId: organizationId1,
       sex: "MALE",
       size: "SMALL",
-      specie: "DOG",
+      specie: "DOG",}
     })
 
     inMemoryPetsRepository.create({
+      pet: {
       name: 'John Doe',
       birthDate: new Date('2021-09-09'),
       description: 'description',
       organizationId: organizationId1,
       sex: "MALE",
       size: "SMALL",
-      specie: "DOG",
+      specie: "DOG",}
     })
 
     inMemoryPetsRepository.create({
+      pet: {
       name: 'John Doe',
       birthDate: new Date('2021-09-09'),
       description: 'description',
       organizationId: "i wont appear",
       sex: "MALE",
       size: "SMALL",
-      specie: "DOG",
+      specie: "DOG",}
     })
 
     inMemoryPetsRepository.create({
+      pet: {
       name: 'John Doe',
       birthDate: new Date('2021-09-09'),
       description: 'description',
       organizationId: organizationId2,
       sex: "MALE",
       size: "SMALL",
-      specie: "DOG",
+      specie: "DOG",}
     })
 
     inMemoryPetsRepository.create({
+      pet: {
       name: 'John Doe',
       birthDate: new Date('2021-09-09'),
       description: 'description',
       organizationId: "i wont appear",
       sex: "MALE",
       size: "SMALL",
-      specie: "DOG",
+      specie: "DOG",}
     })
 
     const { pets } = await sut.execute({
@@ -146,63 +158,69 @@ describe('Search Many Pets Service', () => {
 
   it('should be able to search pets by its characteristics', async () => {
     inMemoryPetsRepository.create({
+      pet: {
       name: 'John Doe',
       birthDate: new Date('2021-09-09'),
       description: 'description',
       organizationId: organizationId1,
       sex: "FEMALE",
       size: "SMALL",
-      specie: "DOG",
+      specie: "DOG",}
     })
 
     inMemoryPetsRepository.create({
+      pet: {
       name: 'John Doe',
       birthDate: new Date('2021-09-09'),
       description: 'description',
       organizationId: organizationId1,
       sex: "MALE",
       size: "SMALL",
-      specie: "DOG",
+      specie: "DOG",}
     })
 
     inMemoryPetsRepository.create({
+      pet: {
       name: 'John Doe',
       birthDate: new Date('2021-09-09'),
       description: 'description',
       organizationId: "i wont appear",
       sex: "MALE",
       size: "SMALL",
-      specie: "DOG",
+      specie: "DOG",}
     })
 
     inMemoryPetsRepository.create({
+      pet: {
       name: 'John Doe',
       birthDate: new Date('2021-09-09'),
       description: 'description',
       organizationId: organizationId2,
       sex: "MALE",
       size: "SMALL",
-      specie: "BIRD",
+      specie: "BIRD"},
     })
 
     inMemoryPetsRepository.create({
+      pet: {
       name: 'John Doe',
       birthDate: new Date('2021-09-09'),
       description: 'description',
       organizationId: organizationId2,
       sex: "MALE",
       size: "MEDIUM",
-      specie: "DOG",
+      specie: "DOG",}
     })
 
     inMemoryPetsRepository.create({
+      pet: {
       name: 'John Doe',
       birthDate: new Date('2021-09-09'),
       description: 'description',
       organizationId: "i wont appear",
       sex: "MALE",
       size: "SMALL",
-      specie: "DOG",
+      specie: "DOG",}
     })
 
     const { pets } = await sut.execute({

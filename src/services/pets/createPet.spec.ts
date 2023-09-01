@@ -20,6 +20,7 @@ describe('Create Pet Service', () => {
 
   it('should be able to create a pet', async () => {
     inMemoryOrganizationsRepository.create({
+      organization: {
       id: 'organizationId',
       name: 'John Doe',
       email: "teste@mail.com",
@@ -29,9 +30,11 @@ describe('Create Pet Service', () => {
       phone: '123456',
       state: 'RN',
       street: 'Rua',
+      }
     })
 
-    const { pet } = await sut.execute({
+    const { createdPet } = await sut.execute({
+      pet: {
       name: 'John Doe',
       birthDate: new Date('2021-09-09'),
       description: 'description',
@@ -39,13 +42,15 @@ describe('Create Pet Service', () => {
       sex:"FEMALE",
       size:"SMALL",
       specie:"DOG",
+      }
     })
 
-    expect(pet.id).toEqual(expect.any(String))
+    expect(createdPet.id).toEqual(expect.any(String))
   })
 
   it('should be not able to create a pet in a non-existing organization', async () => {
     await expect( sut.execute({
+      pet: {
       name: 'John Doe',
       birthDate: new Date('2021-09-09'),
       description: 'description',
@@ -53,6 +58,7 @@ describe('Create Pet Service', () => {
       sex:"FEMALE",
       size:"SMALL",
       specie:"DOG",
+      }
     })).rejects.toBeInstanceOf(ResourceNotFound)
   })
 })

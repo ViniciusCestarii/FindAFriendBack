@@ -1,7 +1,7 @@
 import { Prisma, Organization } from "@prisma/client";
 import { OrganizationsRepository } from "../organizationsRepository";
 import { randomUUID } from "node:crypto";
-import { UpdateOrganizationType } from "@/types/organizationTypes";
+import { CreateOrganizationType, UpdateOrganizationType } from "@/types/organizationTypes";
 import { hash } from "bcryptjs";
 
 export class InMemoryOrganizationsRepository implements OrganizationsRepository {
@@ -32,24 +32,24 @@ export class InMemoryOrganizationsRepository implements OrganizationsRepository 
     return updatedOrganization
   }
   
-  async create(data: Prisma.OrganizationCreateInput) {
-    const organization : Organization = {
-      id: data.id ?? randomUUID(),
-      name: data.name,
-      email: data.email,
-      passwordHash: data.passwordHash,
+  async create({ organization }: CreateOrganizationType) {
+    const createdOrganization : Organization = {
+      id: organization.id ?? randomUUID(),
+      name: organization.name,
+      email: organization.email,
+      passwordHash: organization.passwordHash,
       createdAt: new Date(),
       updatedAt: new Date(),
-      cep: data.cep,
-      city: data.city,
-      phone: data.phone,
-      state: data.state,
-      street: data.street,
-      description: data.description ?? null,
+      cep: organization.cep,
+      city: organization.city,
+      phone: organization.phone,
+      state: organization.state,
+      street: organization.street,
+      description: organization.description ?? null,
     }
-    this.items.push(organization)
+    this.items.push(createdOrganization)
 
-    return organization
+    return createdOrganization
   }
   async findByEmail(email: string) {
     const organization = this.items.find(organization => organization.email === email)
