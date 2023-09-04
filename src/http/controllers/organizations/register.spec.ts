@@ -27,8 +27,6 @@ describe("Register a organization (e2e)", () => {
         imageUrls: [],
       });
 
-    console.log(registerOrganizationResponse.body);
-
     expect(registerOrganizationResponse.status).toBe(201);
   });
 });

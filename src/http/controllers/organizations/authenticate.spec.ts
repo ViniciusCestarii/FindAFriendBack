@@ -1,5 +1,6 @@
 import { app } from "@/app";
 import { prisma } from "@/lib/prisma";
+import { hash } from "bcryptjs";
 import request from "supertest";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
@@ -13,13 +14,15 @@ describe("Authenticate a organization (e2e)", () => {
   });
 
   it("should be able to authenticate a organization", async () => {
+    const passwordHash = await hash("123456", 6);
+
     await prisma.organization.create({
       data: {
         cep: "12345-876",
         city: "Natal",
         email: "johndoe@example.com",
         name: "John Doe",
-        passwordHash: "123456",
+        passwordHash,
         phone: "123456789",
         state: "RN",
         street: "Rua",
@@ -34,5 +37,8 @@ describe("Authenticate a organization (e2e)", () => {
       });
 
     expect(authenticateOrganizationResponse.status).toBe(200);
+    expect(authenticateOrganizationResponse.body).toEqual({
+      token: expect.any(String),
+    });
   });
 });

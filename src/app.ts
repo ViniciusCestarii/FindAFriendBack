@@ -4,12 +4,21 @@ import { env } from "./env";
 import { petsRoutes } from "./http/controllers/pets/routes";
 import { organizationsRoutes } from "./http/controllers/organizations/routes";
 import fastifyJwt from "@fastify/jwt";
+import fastifyCookie from "@fastify/cookie";
 
 export const app = fastify();
 
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
+  cookie: {
+    cookieName: "refreshToken",
+    signed: false,
+  },
+  sign: {
+    expiresIn: "20m",
+  },
 });
+app.register(fastifyCookie);
 
 app.register(petsRoutes);
 app.register(organizationsRoutes);
