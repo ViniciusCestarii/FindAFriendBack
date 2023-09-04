@@ -39,9 +39,14 @@ export class RegisterOrganizationService {
       throw new EmailAlreadyExistsError();
     }
 
+    const organizationToCreate = {
+      ...organization,
+      password: undefined,
+    };
+
     const createdOrganization = await this.organizationsRepository.create({
       organization: {
-        ...organization,
+        ...organizationToCreate,
         passwordHash,
       },
       imageUrls,

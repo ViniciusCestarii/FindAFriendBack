@@ -4,7 +4,7 @@ import { hash } from "bcryptjs";
 import request from "supertest";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
-describe("Update a organization (e2e)", () => {
+describe("Fetch a organization (e2e)", () => {
   beforeAll(async () => {
     await app.ready();
   });
@@ -13,7 +13,7 @@ describe("Update a organization (e2e)", () => {
     await app.close();
   });
 
-  it("should be able to update a organization", async () => {
+  it("should be able to fetch a organization", async () => {
     const organization = await prisma.organization.create({
       data: {
         name: "John Doe",
@@ -27,19 +27,15 @@ describe("Update a organization (e2e)", () => {
       },
     });
 
-    const organizationToUpdate = organization;
+    const fetchOrganizationResponse = await request(app.server)
+      .get(`/organization/${organization.id}`)
+      .send();
 
-    organizationToUpdate.description = "some description";
-
-    const updateOrganizationResponse = await request(app.server)
-      .put(`/organization/${organization.id}`)
-      .send({ ...organizationToUpdate, imageUrls: [] });
-
-    const updatedOrganization = await prisma.organization.findUniqueOrThrow({
-      where: { id: organization.id },
-    });
-
-    expect(updateOrganizationResponse.status).toBe(200);
-    expect(updatedOrganization.description).toBe("some description");
+    expect(fetchOrganizationResponse.status).toBe(200);
+    expect(fetchOrganizationResponse.body).toEqual(
+      expect.objectContaining({
+        id: organization.id,
+      }),
+    );
   });
 });
