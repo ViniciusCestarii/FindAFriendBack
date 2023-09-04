@@ -1,5 +1,5 @@
 import { ResourceNotFound } from "@/services/errors/resourceNotFound";
-import { makeUpdateOrganizationService } from "@/services/factories/makeUpdateOrganization";
+import { makeUpdateOrganizationService } from "@/services/factories/organizations/makeUpdateOrganization";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 

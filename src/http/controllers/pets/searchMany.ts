@@ -1,4 +1,4 @@
-import { makeSearchManyPetsService } from "@/services/factories/makeSearchManyPets";
+import { makeSearchManyPetsService } from "@/services/factories/pets/makeSearchManyPets";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 

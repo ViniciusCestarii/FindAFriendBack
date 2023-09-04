@@ -1,5 +1,5 @@
 import { PrismaOrganizationsRepository } from "@/repositories/prisma/prismaOrganizationsRepository";
-import { UpdateOrganizationService } from "../organizations/updateOrganization";
+import { UpdateOrganizationService } from "../../organizations/updateOrganization";
 
 export const makeUpdateOrganizationService = () => {
   const prismaOrganizationsRepository = new PrismaOrganizationsRepository();

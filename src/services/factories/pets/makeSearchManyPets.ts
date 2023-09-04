@@ -1,5 +1,5 @@
 import { PrismaPetsRepository } from "@/repositories/prisma/prismaPetsRepository";
-import { SearchManyPetsService } from "../pets/searchManyPets";
+import { SearchManyPetsService } from "@/services/pets/searchManyPets";
 
 export const makeSearchManyPetsService = () => {
   const prismaPetsRepository = new PrismaPetsRepository();

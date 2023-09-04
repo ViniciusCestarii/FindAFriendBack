@@ -1,11 +1,11 @@
 import { PrismaOrganizationsRepository } from "@/repositories/prisma/prismaOrganizationsRepository";
+import { CreatePetService } from "../../pets/createPet";
 import { PrismaPetsRepository } from "@/repositories/prisma/prismaPetsRepository";
-import { UpdatePetService } from "../pets/updatePet";
 
-export const makeUpdatePetService = () => {
+export const makeCreatePetService = () => {
   const prismaPetsRepository = new PrismaPetsRepository();
   const prismaOrganizationsRepository = new PrismaOrganizationsRepository();
-  const service = new UpdatePetService(
+  const service = new CreatePetService(
     prismaPetsRepository,
     prismaOrganizationsRepository,
   );
