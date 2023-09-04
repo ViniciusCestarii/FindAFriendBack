@@ -6,6 +6,7 @@ import {
 import { Pet } from "@prisma/client";
 
 export interface PetsRepository {
+  delete(id: string): Promise<void>;
   create(data: CreatePetType): Promise<Pet>;
   findById(id: string): Promise<Pet | null>;
   searchMany(params: SearchManyPetsParams): Promise<Pet[]>;

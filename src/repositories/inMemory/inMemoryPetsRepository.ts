@@ -100,4 +100,8 @@ export class InMemoryPetsRepository implements PetsRepository {
 
     return updatedPet;
   }
+
+  async delete(id: string): Promise<void> {
+    this.items = this.items.filter((item) => item.id !== id);
+  }
 }
