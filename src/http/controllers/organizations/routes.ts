@@ -18,5 +18,5 @@ export const organizationsRoutes = async (app: FastifyInstance) => {
   /* Authenticated Routes */
   app.get("/me", { onRequest: [verifyJWT] }, profile);
 
-  app.put("/organization/:id", { onRequest: [verifyJWT] }, update);
+  app.put("/organization", { onRequest: [verifyJWT] }, update);
 };

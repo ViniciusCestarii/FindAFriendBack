@@ -4,11 +4,8 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
 export const update = async (request: FastifyRequest, reply: FastifyReply) => {
-  const updateOrganizationParamsSchema = z.object({
-    id: z.string().uuid(),
-  });
-
   const updateOrganizationBodySchema = z.object({
+    id: z.string().uuid(),
     name: z.string(),
     description: z.string().nullable(),
     imageUrls: z.array(z.string()).optional(),
@@ -21,6 +18,7 @@ export const update = async (request: FastifyRequest, reply: FastifyReply) => {
   });
 
   const {
+    id,
     description,
     imageUrls,
     name,
@@ -31,7 +29,6 @@ export const update = async (request: FastifyRequest, reply: FastifyReply) => {
     state,
     street,
   } = updateOrganizationBodySchema.parse(request.body);
-  const { id } = updateOrganizationParamsSchema.parse(request.params);
 
   const updateOrganizationService = makeUpdateOrganizationService();
 

@@ -25,7 +25,7 @@ describe("Update a organization (e2e)", () => {
     organizationToUpdate.description = "some description";
 
     const updateOrganizationResponse = await request(app.server)
-      .put(`/organization/${organization.id}`)
+      .put(`/organization`)
       .set("Authorization", `Bearer ${token}`)
       .send({ ...organizationToUpdate, imageUrls: [] });
 

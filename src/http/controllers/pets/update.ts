@@ -4,11 +4,8 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
 export const update = async (request: FastifyRequest, reply: FastifyReply) => {
-  const updatePetParamsSchema = z.object({
-    id: z.string().uuid(),
-  });
-
   const updatePetBodySchema = z.object({
+    id: z.string().uuid(),
     organizationId: z.string().uuid(),
     name: z.string(),
     description: z.string().optional(),
@@ -21,6 +18,7 @@ export const update = async (request: FastifyRequest, reply: FastifyReply) => {
   });
 
   const {
+    id,
     birthDate,
     description,
     imageUrls,
@@ -31,7 +29,6 @@ export const update = async (request: FastifyRequest, reply: FastifyReply) => {
     size,
     specie,
   } = updatePetBodySchema.parse(request.body);
-  const { id } = updatePetParamsSchema.parse(request.params);
 
   const updatePetService = makeUpdatePetService();
 

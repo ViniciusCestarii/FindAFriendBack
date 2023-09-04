@@ -35,7 +35,7 @@ describe("Update a pet (e2e)", () => {
     petToUpdate.description = "some super description";
 
     const updatePetResponse = await request(app.server)
-      .put(`/pet/${pet.id}`)
+      .put(`/pet`)
       .set("Authorization", `Bearer ${token}`)
       .send({ ...petToUpdate, imageUrls: [] });
 

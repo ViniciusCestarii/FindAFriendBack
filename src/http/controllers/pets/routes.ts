@@ -13,7 +13,7 @@ export const petsRoutes = async (app: FastifyInstance) => {
 
   /* Authenticated Routes */
 
-  app.put("/pet/:id", { onRequest: [verifyJWT] }, update);
+  app.put("/pet", { onRequest: [verifyJWT] }, update);
   app.post("/pets", { onRequest: [verifyJWT] }, create);
 
   app.delete("/pet/:id", { onRequest: [verifyJWT] }, deletePet);
