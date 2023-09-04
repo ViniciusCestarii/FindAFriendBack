@@ -90,7 +90,7 @@ export class InMemoryPetsRepository implements PetsRepository {
       sex: pet.sex,
       specie: pet.specie,
       createdAt: this.items[petIndex].createdAt,
-      description: pet.description,
+      description: pet.description ?? null,
       name: pet.name,
       id: pet.id,
       updatedAt: this.items[petIndex].updatedAt,

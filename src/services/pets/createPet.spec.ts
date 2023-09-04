@@ -52,7 +52,7 @@ describe("Create Pet Service", () => {
     expect(createdPet.id).toEqual(expect.any(String));
   });
 
-  it("should be not able to create a pet in a non-existing organization", async () => {
+  it("should not be able to create a pet in a non-existing organization", async () => {
     await expect(
       sut.execute({
         pet: {

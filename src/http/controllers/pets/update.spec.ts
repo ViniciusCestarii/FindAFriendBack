@@ -32,6 +32,7 @@ describe("Update a pet (e2e)", () => {
     const petToUpdate = pet;
 
     petToUpdate.isAdopted = true;
+    petToUpdate.description = "some super description";
 
     const updatePetResponse = await request(app.server)
       .put(`/pet/${pet.id}`)
@@ -44,5 +45,6 @@ describe("Update a pet (e2e)", () => {
 
     expect(updatePetResponse.status).toBe(200);
     expect(updatedPet.isAdopted).toBe(true);
+    expect(updatedPet.description).toBe("some super description");
   });
 });
