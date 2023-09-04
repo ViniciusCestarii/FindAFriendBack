@@ -7,10 +7,8 @@ import { hash } from "bcryptjs";
 export class InMemoryOrganizationsRepository implements OrganizationsRepository {
   public items: Organization[] = []
 
-  async update(organization: UpdateOrganizationType): Promise<Organization> {
+  async update({organization}: UpdateOrganizationType): Promise<Organization> {
     const organizationIndex = this.items.findIndex(item => item.id === organization.id)
-
-    const passwordHash = await hash(organization.password, 6)
 
     const updatedOrganization : Organization = {
       cep: organization.cep,
@@ -18,7 +16,7 @@ export class InMemoryOrganizationsRepository implements OrganizationsRepository 
       email: organization.email,
       id: organization.id,
       name: organization.name,
-      passwordHash: passwordHash,
+      passwordHash: this.items[organizationIndex].passwordHash,
       phone: organization.phone,
       description: organization.description,
       state: organization.state,

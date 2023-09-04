@@ -16,21 +16,23 @@ export interface SearchManyPetsParams {
 }
 
 export interface CreatePetType {
-  pet: Prisma.PetUncheckedCreateInput,
+  pet: Prisma.PetUncheckedCreateInput
   imageUrls?: string[] | undefined
 }
 
 export interface UpdatePetType {
-  id: string;
-  name: string;
-  sex: $Enums.Sex;
-  description: string;
-  specie: $Enums.Specie;
-  size: $Enums.Size;
-  birthDate: Date;
-  isAdopted: boolean;
-  organizationId: string;
-  imageUrls: string[] | undefined;
+  pet: {
+    id: string
+    birthDate: Date
+    isAdopted: boolean
+    description: string
+    name: string
+    organizationId: string
+    sex:$Enums.Sex
+    size: $Enums.Size
+    specie: $Enums.Specie
+  }
+  imageUrls: string[] | undefined
 }
 
 export type fase = "BABY" | "YOUNG" | "ADULT" | "SENIOR"

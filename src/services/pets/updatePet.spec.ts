@@ -14,31 +14,49 @@ describe('Update Pet Service', () => {
   beforeEach(() => {
     inMemoryOrganizationsRepository = new InMemoryOrganizationsRepository()
     inMemoryPetsRepository = new InMemoryPetsRepository(inMemoryOrganizationsRepository)
-    sut = new UpdatePetService(inMemoryPetsRepository)
+    sut = new UpdatePetService(inMemoryPetsRepository, inMemoryOrganizationsRepository)
   })
 
   it('should be able to update a pet', async () => {
+    await inMemoryOrganizationsRepository.create({
+      organization: {
+        cep: '00000000',
+        city: 'city',
+        email: 'email',
+        name: 'name',
+        passwordHash: 'passwordHash',
+        phone: 'phone',
+        state: 'state',
+        street: 'street',
+        createdAt: new Date(),
+        description: 'description',
+        id: 'organizationId',
+      }
+    })
     const pet = await inMemoryPetsRepository.create({
       pet: {
-      name: 'John Doe',
-      birthDate: new Date('2021-09-09'),
-      description: 'description',
-      organizationId: 'organizationId',
-      sex: "FEMALE",
-      size: "SMALL",
-      specie: "DOG",
-    }})
+        name: 'John Doe',
+        birthDate: new Date('2021-09-09'),
+        description: 'description',
+        organizationId: 'organizationId',
+        sex: "FEMALE",
+        size: "SMALL",
+        specie: "DOG",
+      }
+    })
 
     const { updatedPet } = await sut.execute({
-      id: pet.id,
-      name: 'Another name',
-      birthDate: new Date('2021-09-09'),
-      description: 'description',
-      organizationId: 'organizationId',
-      isAdopted: false,
-      sex: "MALE",
-      size: "SMALL",
-      specie: "DOG",
+      pet: {
+        id: pet.id,
+        name: 'Another name',
+        birthDate: new Date('2021-09-09'),
+        description: 'description',
+        organizationId: 'organizationId',
+        isAdopted: false,
+        sex: "MALE",
+        size: "SMALL",
+        specie: "DOG",
+      },
       imageUrls: undefined
     })
 
@@ -52,17 +70,65 @@ describe('Update Pet Service', () => {
   })
 
   it('should not be able to update a non-existent pet', async () => {
+    await inMemoryOrganizationsRepository.create({
+      organization: {
+        cep: '00000000',
+        city: 'city',
+        email: 'email',
+        name: 'name',
+        passwordHash: 'passwordHash',
+        phone: 'phone',
+        state: 'state',
+        street: 'street',
+        createdAt: new Date(),
+        description: 'description',
+        id: 'organizationId',
+      }
+    })
+
     await expect(
-        sut.execute({
-        id: "non-existent-id",
-        name: 'Another name',
+      sut.execute({
+        pet: {
+          id: "non-existent-id",
+          name: 'Another name',
+          birthDate: new Date('2021-09-09'),
+          description: 'description',
+          organizationId: 'organizationId',
+          isAdopted: false,
+          sex: "MALE",
+          size: "SMALL",
+          specie: "DOG",
+        },
+        imageUrls: undefined
+      })).rejects.toBeInstanceOf(ResourceNotFound)
+  })
+
+  it('should not be able to update a pet to a non-existing organization', async () => {
+    const pet = await inMemoryPetsRepository.create({
+      pet: {
+        name: 'John Doe',
         birthDate: new Date('2021-09-09'),
         description: 'description',
         organizationId: 'organizationId',
-        isAdopted: false,
-        sex: "MALE",
+        sex: "FEMALE",
         size: "SMALL",
         specie: "DOG",
+      }
+    })
+
+    await expect(
+      sut.execute({
+        pet: {
+          id: pet.id,
+          name: 'Another name',
+          birthDate: new Date('2021-09-09'),
+          description: 'description',
+          organizationId: 'non-existent-organization-id',
+          isAdopted: false,
+          sex: "MALE",
+          size: "SMALL",
+          specie: "DOG",
+        },
         imageUrls: undefined
       })).rejects.toBeInstanceOf(ResourceNotFound)
   })

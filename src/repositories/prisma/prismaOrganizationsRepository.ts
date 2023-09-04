@@ -2,10 +2,9 @@ import { prisma } from "@/lib/prisma";
 import { Prisma, Organization } from "@prisma/client";
 import { OrganizationsRepository } from "../organizationsRepository";
 import { CreateOrganizationType, UpdateOrganizationType } from "@/types/organizationTypes";
-import { hash } from "bcryptjs";
 
 export class PrismaOrganizationsRepository implements OrganizationsRepository {
-  async update(organization: UpdateOrganizationType): Promise<Organization> {
+  async update({imageUrls, organization}: UpdateOrganizationType): Promise<Organization> {
 
     await prisma.image.deleteMany({
       where: {
@@ -15,24 +14,14 @@ export class PrismaOrganizationsRepository implements OrganizationsRepository {
 
     //if i was storaging image files in a the database, i would need to delete the old ones and create the new ones
 
-    const updateImages: Prisma.ImageCreateManyPetInput[] = organization.imageUrls?.map(url => ({ url })) ?? []
-
-    const passwordHash = await hash(organization.password, 6)
+    const updateImages: Prisma.ImageCreateManyPetInput[] = imageUrls?.map(url => ({ url })) ?? []
 
     const updatedOrganization = await prisma.organization.update({
       where: {
         id: organization.id
       },
       data: {
-        name: organization.name,
-        description: organization.description,
-        cep: organization.cep,
-        city: organization.city,
-        email: organization.email,
-        passwordHash,
-        phone: organization.phone,
-        state: organization.state,
-        street: organization.street,
+        ...organization,
         images: {
           createMany: {
             data: updateImages,

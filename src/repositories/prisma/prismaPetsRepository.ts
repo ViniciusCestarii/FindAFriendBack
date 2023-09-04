@@ -65,8 +65,8 @@ export class PrismaPetsRepository implements PetsRepository {
     return pets;
   }
 
-  async update(pet: UpdatePetType): Promise<Pet> {
-    const updateImages: Prisma.ImageCreateManyPetInput[] = pet.imageUrls?.map(url => ({ url })) ?? []
+  async update({imageUrls, pet}: UpdatePetType): Promise<Pet> {
+    const updateImages: Prisma.ImageCreateManyPetInput[] = imageUrls?.map(url => ({ url })) ?? []
 
     await prisma.image.deleteMany({
       where: {
@@ -81,14 +81,7 @@ export class PrismaPetsRepository implements PetsRepository {
         id: pet.id
       },
       data: {
-        name: pet.name,
-        description: pet.description,
-        birthDate: new Date(pet.birthDate),
-        sex: pet.sex,
-        size: pet.size,
-        specie: pet.specie,
-        isAdopted: pet.isAdopted,
-        organizationId: pet.organizationId,
+        ...pet,
         images: {
           createMany: {
             data: updateImages,

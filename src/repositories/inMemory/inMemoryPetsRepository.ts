@@ -9,7 +9,7 @@ export class InMemoryPetsRepository implements PetsRepository {
   constructor(private inMemoryOrganizationsRepository: InMemoryOrganizationsRepository) { }
   public items: Pet[] = []
   async create({ pet }: CreatePetType) {
-    console.log(pet)
+
     const createdPet: Pet = {
       id: pet.id ?? randomUUID(),
       birthDate: new Date(pet.birthDate),
@@ -60,7 +60,7 @@ export class InMemoryPetsRepository implements PetsRepository {
 
     return this.items.filter((_, index) => foundPets[index]).slice((page - 1) * 20, page * 20);
   }
-  async update(pet: UpdatePetType): Promise<Pet> {
+  async update({pet}: UpdatePetType): Promise<Pet> {
     const petIndex = this.items.findIndex(item => item.id === pet.id)
 
     const updatedPet: Pet = {
