@@ -1,13 +1,12 @@
-import { ResourceNotFound } from "@/services/errors/resourceNotFound"
-import { makeUpdateOrganizationService } from "@/services/factories/makeUpdateOrganization"
-import { FastifyReply, FastifyRequest } from "fastify"
-import { z } from "zod"
+import { ResourceNotFound } from "@/services/errors/resourceNotFound";
+import { makeUpdateOrganizationService } from "@/services/factories/makeUpdateOrganization";
+import { FastifyReply, FastifyRequest } from "fastify";
+import { z } from "zod";
 
 export const update = async (request: FastifyRequest, reply: FastifyReply) => {
-
   const updateOrganizationParamsSchema = z.object({
-    id: z.string().uuid()
-  })
+    id: z.string().uuid(),
+  });
 
   const updateOrganizationBodySchema = z.object({
     name: z.string(),
@@ -19,12 +18,22 @@ export const update = async (request: FastifyRequest, reply: FastifyReply) => {
     street: z.string(),
     email: z.string().email(),
     phone: z.string(),
-  })
+  });
 
-  const { description, imageUrls, name,cep, city, email, phone, state, street } = updateOrganizationBodySchema.parse(request.body)
-  const { id } = updateOrganizationParamsSchema.parse(request.params)
+  const {
+    description,
+    imageUrls,
+    name,
+    cep,
+    city,
+    email,
+    phone,
+    state,
+    street,
+  } = updateOrganizationBodySchema.parse(request.body);
+  const { id } = updateOrganizationParamsSchema.parse(request.params);
 
-  const updateOrganizationService = makeUpdateOrganizationService()
+  const updateOrganizationService = makeUpdateOrganizationService();
 
   try {
     await updateOrganizationService.execute({
@@ -37,16 +46,15 @@ export const update = async (request: FastifyRequest, reply: FastifyReply) => {
         state,
         street,
         email,
-        phone
+        phone,
       },
-      imageUrls
-    })
+      imageUrls,
+    });
 
-    return reply.status(200).send()
-
+    return reply.status(200).send();
   } catch (err) {
     if (err instanceof ResourceNotFound) {
-      return reply.status(401).send(err.message)
+      return reply.status(401).send(err.message);
     }
   }
-}
+};

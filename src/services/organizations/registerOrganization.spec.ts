@@ -1,83 +1,86 @@
-import { expect, describe, it, beforeEach } from "vitest"
-import { compare } from "bcryptjs"
-import { InMemoryOrganizationsRepository } from "@/repositories/inMemory/inMemoryOrganizationsRepository"
-import { RegisterOrganizationService } from "./registerOrganization"
-import { EmailAlreadyExistsError } from "../errors/emailAlreadyExistsError"
+import { expect, describe, it, beforeEach } from "vitest";
+import { compare } from "bcryptjs";
+import { InMemoryOrganizationsRepository } from "@/repositories/inMemory/inMemoryOrganizationsRepository";
+import { RegisterOrganizationService } from "./registerOrganization";
+import { EmailAlreadyExistsError } from "../errors/emailAlreadyExistsError";
 
-let inMemoryOrganizationsRepository: InMemoryOrganizationsRepository
-let sut: RegisterOrganizationService
+let inMemoryOrganizationsRepository: InMemoryOrganizationsRepository;
+let sut: RegisterOrganizationService;
 
-describe('Register Organization Service', () => {
+describe("Register Organization Service", () => {
   beforeEach(() => {
-    inMemoryOrganizationsRepository = new InMemoryOrganizationsRepository()
-    sut = new RegisterOrganizationService(inMemoryOrganizationsRepository)
-  })
+    inMemoryOrganizationsRepository = new InMemoryOrganizationsRepository();
+    sut = new RegisterOrganizationService(inMemoryOrganizationsRepository);
+  });
 
-  it('should be able to register a organization', async () => {
+  it("should be able to register a organization", async () => {
     const { createdOrganization } = await sut.execute({
       organization: {
-      name: 'John Doe',
-      email: 'johndoe@example.com',
-      password: '123456',
-      cep: '123456',
-      city: 'Natal',
-      phone: '123456',
-      state: 'RN',
-      street: 'Rua',
-      }
-    })
+        name: "John Doe",
+        email: "johndoe@example.com",
+        password: "123456",
+        cep: "123456",
+        city: "Natal",
+        phone: "123456",
+        state: "RN",
+        street: "Rua",
+      },
+    });
 
-    expect(createdOrganization.id).toEqual(expect.any(String))
-  })
+    expect(createdOrganization.id).toEqual(expect.any(String));
+  });
 
-  it('should hash organization password upon registration', async () => {
+  it("should hash organization password upon registration", async () => {
     const { createdOrganization } = await sut.execute({
       organization: {
-      name: 'John Doe',
-      email: 'johndoe@example.com',
-      password: '123456',
-      cep: '123456',
-      city: 'Natal',
-      phone: '123456',
-      state: 'RN',
-      street: 'Rua',
-      }
-    })
+        name: "John Doe",
+        email: "johndoe@example.com",
+        password: "123456",
+        cep: "123456",
+        city: "Natal",
+        phone: "123456",
+        state: "RN",
+        street: "Rua",
+      },
+    });
 
-    const isPasswordCorrectlyHashed = await compare('123456', createdOrganization.passwordHash)
+    const isPasswordCorrectlyHashed = await compare(
+      "123456",
+      createdOrganization.passwordHash,
+    );
 
-    expect(isPasswordCorrectlyHashed).toBe(true)
-  })
+    expect(isPasswordCorrectlyHashed).toBe(true);
+  });
 
-  it('should not be able to register a organization with same email twice', async () => {
-    const organizationEmail = 'johndoe@example.com'
+  it("should not be able to register a organization with same email twice", async () => {
+    const organizationEmail = "johndoe@example.com";
 
     await sut.execute({
       organization: {
-      name: 'John Doe',
-      email: organizationEmail,
-      password: '123456',
-      cep: '123456',
-      city: 'Natal',
-      phone: '123456',
-      state: 'RN',
-      street: 'Rua',
-      }
-    })
+        name: "John Doe",
+        email: organizationEmail,
+        password: "123456",
+        cep: "123456",
+        city: "Natal",
+        phone: "123456",
+        state: "RN",
+        street: "Rua",
+      },
+    });
 
-    await expect(() => 
+    await expect(() =>
       sut.execute({
         organization: {
-        name: 'John Doe',
-        email: organizationEmail,
-        password: '123456',
-        cep: '123456',
-        city: 'Natal',
-        phone: '123456',
-        state: 'RN',
-        street: 'Rua',
-        }
-      })
-    ).rejects.toBeInstanceOf(EmailAlreadyExistsError)
-  })
-})
+          name: "John Doe",
+          email: organizationEmail,
+          password: "123456",
+          cep: "123456",
+          city: "Natal",
+          phone: "123456",
+          state: "RN",
+          street: "Rua",
+        },
+      }),
+    ).rejects.toBeInstanceOf(EmailAlreadyExistsError);
+  });
+});

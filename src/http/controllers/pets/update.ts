@@ -1,13 +1,12 @@
-import { ResourceNotFound } from "@/services/errors/resourceNotFound"
-import { makeUpdatePetService } from "@/services/factories/makeUpdatePet"
-import { FastifyReply, FastifyRequest } from "fastify"
-import { z } from "zod"
+import { ResourceNotFound } from "@/services/errors/resourceNotFound";
+import { makeUpdatePetService } from "@/services/factories/makeUpdatePet";
+import { FastifyReply, FastifyRequest } from "fastify";
+import { z } from "zod";
 
 export const update = async (request: FastifyRequest, reply: FastifyReply) => {
-
   const updatePetParamsSchema = z.object({
-    id: z.string().uuid()
-  })
+    id: z.string().uuid(),
+  });
 
   const updatePetBodySchema = z.object({
     organizationId: z.string().uuid(),
@@ -18,13 +17,23 @@ export const update = async (request: FastifyRequest, reply: FastifyReply) => {
     size: z.enum(["SMALL", "MEDIUM", "LARGE"]),
     specie: z.enum(["DOG", "CAT", "BIRD", "RODENT", "REPTILE", "OTHER"]),
     imageUrls: z.array(z.string()),
-    isAdopted: z.coerce.boolean()
-  })
+    isAdopted: z.coerce.boolean(),
+  });
 
-  const { birthDate, description, imageUrls, isAdopted, name, organizationId, sex, size, specie } = updatePetBodySchema.parse(request.body)
-  const { id } = updatePetParamsSchema.parse(request.params)
+  const {
+    birthDate,
+    description,
+    imageUrls,
+    isAdopted,
+    name,
+    organizationId,
+    sex,
+    size,
+    specie,
+  } = updatePetBodySchema.parse(request.body);
+  const { id } = updatePetParamsSchema.parse(request.params);
 
-  const updatePetService = makeUpdatePetService()
+  const updatePetService = makeUpdatePetService();
 
   try {
     await updatePetService.execute({
@@ -39,14 +48,13 @@ export const update = async (request: FastifyRequest, reply: FastifyReply) => {
         size,
         specie,
       },
-      imageUrls
-    })
+      imageUrls,
+    });
 
-    return reply.status(200).send()
-
+    return reply.status(200).send();
   } catch (err) {
     if (err instanceof ResourceNotFound) {
-      return reply.status(401).send(err.message)
+      return reply.status(401).send(err.message);
     }
   }
-}
+};

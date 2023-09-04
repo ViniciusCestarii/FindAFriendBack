@@ -1,7 +1,11 @@
 import { prisma } from "@/lib/prisma";
 import { Prisma, Pet } from "@prisma/client";
 import { PetsRepository } from "../petsRepository";
-import { CreatePetType, SearchManyPetsParams, UpdatePetType } from "@/types/petTypes";
+import {
+  CreatePetType,
+  SearchManyPetsParams,
+  UpdatePetType,
+} from "@/types/petTypes";
 import { getPetBirthDateFilter } from "@/utils/getPetBirthDateFilter";
 
 export class PrismaPetsRepository implements PetsRepository {
@@ -18,14 +22,17 @@ export class PrismaPetsRepository implements PetsRepository {
     }
 
     if (searchData.fase !== undefined && searchData.specie !== undefined) {
-      petFilters.birthDate = getPetBirthDateFilter({ fase: searchData.fase, specie: searchData.specie })
+      petFilters.birthDate = getPetBirthDateFilter({
+        fase: searchData.fase,
+        specie: searchData.specie,
+      });
     }
 
     if (searchData.name !== undefined) {
       petFilters.name = {
         contains: searchData.name.toLocaleUpperCase(),
-        mode: 'insensitive'
-      }
+        mode: "insensitive",
+      };
     }
 
     if (searchData.sex !== undefined) {
@@ -45,8 +52,7 @@ export class PrismaPetsRepository implements PetsRepository {
     }
 
     const pets = await prisma.pet.findMany({
-      where:
-      {
+      where: {
         ...petFilters,
         organization: organizationFilters,
       },
@@ -54,7 +60,7 @@ export class PrismaPetsRepository implements PetsRepository {
         images: {
           select: {
             url: true,
-          }
+          },
         },
         organization: true,
       },
@@ -65,8 +71,9 @@ export class PrismaPetsRepository implements PetsRepository {
     return pets;
   }
 
-  async update({imageUrls, pet}: UpdatePetType): Promise<Pet> {
-    const updateImages: Prisma.ImageCreateManyPetInput[] = imageUrls?.map(url => ({ url })) ?? []
+  async update({ imageUrls, pet }: UpdatePetType): Promise<Pet> {
+    const updateImages: Prisma.ImageCreateManyPetInput[] =
+      imageUrls?.map((url) => ({ url })) ?? [];
 
     await prisma.image.deleteMany({
       where: {
@@ -74,11 +81,11 @@ export class PrismaPetsRepository implements PetsRepository {
       },
     });
 
-    //if i was storaging image files in a the database, i would need to delete the old ones and create the new ones
+    // if i was storaging image files in a the database, i would need to delete the old ones and create the new ones
 
     const updatedPet = await prisma.pet.update({
       where: {
-        id: pet.id
+        id: pet.id,
       },
       data: {
         ...pet,
@@ -90,12 +97,14 @@ export class PrismaPetsRepository implements PetsRepository {
       },
     });
 
-    return updatedPet
+    return updatedPet;
   }
-  async create({pet, imageUrls}: CreatePetType) {
-    const createImages: Prisma.ImageCreateManyPetInput[] = imageUrls?.map(url => ({ url })) ?? []
 
-    //if i was storaging image files in a the database, i would need to create the new images there and pick the urls
+  async create({ pet, imageUrls }: CreatePetType) {
+    const createImages: Prisma.ImageCreateManyPetInput[] =
+      imageUrls?.map((url) => ({ url })) ?? [];
+
+    // if i was storaging image files in a the database, i would need to create the new images there and pick the urls
 
     const createdPet = await prisma.pet.create({
       data: {
@@ -109,23 +118,23 @@ export class PrismaPetsRepository implements PetsRepository {
       },
     });
 
-    return createdPet
+    return createdPet;
   }
 
   async findById(id: string): Promise<Pet | null> {
     const pet = await prisma.pet.findUnique({
       where: {
-        id
+        id,
       },
       include: {
         images: {
           select: {
             url: true,
-          }
+          },
         },
         organization: true,
-      }
-    })
-    return pet
+      },
+    });
+    return pet;
   }
 }

@@ -1,39 +1,46 @@
-import { PetsRepository } from "@/repositories/petsRepository"
-import { Pet } from "@prisma/client"
-import { ResourceNotFound } from "../errors/resourceNotFound"
-import { UpdatePetType } from "@/types/petTypes"
-import { OrganizationsRepository } from "@/repositories/organizationsRepository"
+import { PetsRepository } from "@/repositories/petsRepository";
+import { Pet } from "@prisma/client";
+import { ResourceNotFound } from "../errors/resourceNotFound";
+import { UpdatePetType } from "@/types/petTypes";
+import { OrganizationsRepository } from "@/repositories/organizationsRepository";
 
 interface UpdatePetServiceResponse {
-  updatedPet: Pet
+  updatedPet: Pet;
 }
 
 export class UpdatePetService {
-  constructor(private petsRepository: PetsRepository, private organizationsRepository: OrganizationsRepository) { }
+  constructor(
+    private petsRepository: PetsRepository,
+    private organizationsRepository: OrganizationsRepository,
+  ) {}
 
-  async execute({imageUrls, pet}: UpdatePetType): Promise<UpdatePetServiceResponse> {
-
-    const petFound = await this.petsRepository.findById(pet.id)
+  async execute({
+    imageUrls,
+    pet,
+  }: UpdatePetType): Promise<UpdatePetServiceResponse> {
+    const petFound = await this.petsRepository.findById(pet.id);
 
     if (!petFound) {
-      throw new ResourceNotFound()
+      throw new ResourceNotFound();
     }
-    
-    const organizationFound = await this.organizationsRepository.findById(pet.organizationId)
 
-    if(!organizationFound) {
-      throw new ResourceNotFound()
+    const organizationFound = await this.organizationsRepository.findById(
+      pet.organizationId,
+    );
+
+    if (!organizationFound) {
+      throw new ResourceNotFound();
     }
 
     const petToUpdate: UpdatePetType = {
       pet,
-      imageUrls
-    }
+      imageUrls,
+    };
 
-    const updatedPet = await this.petsRepository.update(petToUpdate)
+    const updatedPet = await this.petsRepository.update(petToUpdate);
 
     return {
-      updatedPet
-    }
+      updatedPet,
+    };
   }
 }

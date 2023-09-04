@@ -3,16 +3,19 @@ import { $Enums } from "@prisma/client";
 import dayjs from "dayjs";
 
 interface getPetBirthDateFilterRequest {
-  fase: fase,
-  specie: $Enums.Specie
+  fase: fase;
+  specie: $Enums.Specie;
 }
 
 interface getSpecieFilterReturn {
-  gte?: Date,
-  lte?: Date
+  gte?: Date;
+  lte?: Date;
 }
 
-export const getPetBirthDateFilter = ({ fase, specie }: getPetBirthDateFilterRequest) => {
+export const getPetBirthDateFilter = ({
+  fase,
+  specie,
+}: getPetBirthDateFilterRequest) => {
   switch (specie) {
     case "DOG":
       return getDogfilter(fase);
@@ -27,140 +30,123 @@ export const getPetBirthDateFilter = ({ fase, specie }: getPetBirthDateFilterReq
     default:
       return undefined; // Unknown species
   }
-}
+};
 
-const subtractMonthsFromToday = (monthsToSubtract : number) => {
+const subtractMonthsFromToday = (monthsToSubtract: number) => {
   return dayjs().subtract(monthsToSubtract, "month").toDate();
 };
 
 const getDogfilter = (fase: fase): getSpecieFilterReturn => {
   if (fase === "BABY") {
-  return {
-     gte: subtractMonthsFromToday(2),
-     lte: new Date(),
-    }
-  }
-  else if (fase === "YOUNG") {
+    return {
+      gte: subtractMonthsFromToday(2),
+      lte: new Date(),
+    };
+  } else if (fase === "YOUNG") {
     return {
       gte: subtractMonthsFromToday(24),
       lte: subtractMonthsFromToday(2),
-    }
-  }
-  else if (fase === "ADULT") {
+    };
+  } else if (fase === "ADULT") {
     return {
       gte: subtractMonthsFromToday(144),
       lte: subtractMonthsFromToday(24),
-    }
-  }
-  else {
+    };
+  } else {
     return {
       lte: subtractMonthsFromToday(144),
-    }
+    };
   }
-}
+};
 
 const getCatfilter = (fase: fase): getSpecieFilterReturn => {
   if (fase === "BABY") {
     return {
       gte: subtractMonthsFromToday(2),
       lte: new Date(),
-    }
-  }
-  else if (fase === "YOUNG") {
+    };
+  } else if (fase === "YOUNG") {
     return {
       gte: subtractMonthsFromToday(24),
-      lte: subtractMonthsFromToday(2), 
-    }
-  }
-  else if (fase === "ADULT") {
+      lte: subtractMonthsFromToday(2),
+    };
+  } else if (fase === "ADULT") {
     return {
       gte: subtractMonthsFromToday(144),
-      lte: subtractMonthsFromToday(24), 
-    }
-  }
-  else {
+      lte: subtractMonthsFromToday(24),
+    };
+  } else {
     return {
       lte: subtractMonthsFromToday(144),
-    }
+    };
   }
-}
+};
 
 const getBirdfilter = (fase: fase): getSpecieFilterReturn => {
-
-  if (fase = "BABY") {
+  if (fase === "BABY") {
     return {
       gte: subtractMonthsFromToday(1.5),
       lte: new Date(),
-    }
-  }
-  else if (fase = "YOUNG") {
+    };
+  } else if (fase === "YOUNG") {
     return {
       gte: subtractMonthsFromToday(11),
       lte: subtractMonthsFromToday(1.5),
-    }
-  }
-  else if (fase = "ADULT") {
+    };
+  } else if (fase === "ADULT") {
     return {
       gte: subtractMonthsFromToday(36),
       lte: subtractMonthsFromToday(11),
-    }
-  }
-  else {
+    };
+  } else {
     return {
       lte: subtractMonthsFromToday(36),
-    }
+    };
   }
-}
+};
 
 const getRodentfilter = (fase: fase): getSpecieFilterReturn => {
   if (fase === "BABY") {
     return {
       gte: subtractMonthsFromToday(0.5),
       lte: new Date(),
-    }
-  }
-  else if (fase === "YOUNG") {
+    };
+  } else if (fase === "YOUNG") {
     return {
       gte: subtractMonthsFromToday(1.5),
       lte: subtractMonthsFromToday(0.5),
-    }
-  }
-  else if (fase === "ADULT") {
+    };
+  } else if (fase === "ADULT") {
     return {
       gte: subtractMonthsFromToday(4),
       lte: subtractMonthsFromToday(1.5),
-    }
-  }
-  else {
+    };
+  } else {
     return {
       lte: subtractMonthsFromToday(4),
-    }
+    };
   }
-}
+};
 
 const getReptilefilter = (fase: fase): getSpecieFilterReturn => {
   if (fase === "BABY") {
     return {
       gte: subtractMonthsFromToday(0.5),
       lte: new Date(),
-    }
-  }
-  else if (fase === "YOUNG") {
+    };
+  } else if (fase === "YOUNG") {
     return {
       gte: subtractMonthsFromToday(3),
       lte: subtractMonthsFromToday(0.5),
-    }
-  }
-  else if (fase === "ADULT") {
+    };
+  } else if (fase === "ADULT") {
     return {
       gte: subtractMonthsFromToday(60),
       lte: subtractMonthsFromToday(3),
-    }
-  }
-  else {
+    };
+  } else {
     return {
       lte: subtractMonthsFromToday(60),
-    }
+    };
   }
-}
-
+};

@@ -3,12 +3,12 @@ import { $Enums } from "@prisma/client";
 import dayjs from "dayjs";
 
 interface getPetFaseRequest {
-  birthDate: Date,
-  specie: $Enums.Specie
+  birthDate: Date;
+  specie: $Enums.Specie;
 }
 
 export const getPetFase = ({ birthDate, specie }: getPetFaseRequest) => {
-  const ageInMonths = getAgeInMonths(birthDate)
+  const ageInMonths = getAgeInMonths(birthDate);
   switch (specie) {
     case "DOG":
       return getDogFase(ageInMonths);
@@ -23,87 +23,71 @@ export const getPetFase = ({ birthDate, specie }: getPetFaseRequest) => {
     default:
       return false; // Unknown species
   }
-}
+};
 
 export const getAgeInMonths = (birthDate: Date): number => {
   const currentDate = dayjs();
-  const formattedBirthDate = dayjs(birthDate, 'YYYY-MM-DD');
-  const ageInMonths = currentDate.diff(formattedBirthDate, 'month', true);
+  const formattedBirthDate = dayjs(birthDate, "YYYY-MM-DD");
+  const ageInMonths = currentDate.diff(formattedBirthDate, "month", true);
   return ageInMonths;
-}
+};
 
 const getDogFase = (ageInMonths: number): fase => {
   if (ageInMonths >= 0 && ageInMonths <= 2) {
     return "BABY";
-  }
-  else if (ageInMonths >= 3 && ageInMonths <= 24) {
+  } else if (ageInMonths >= 3 && ageInMonths <= 24) {
     return "YOUNG";
-  }
-  else if (ageInMonths >= 25 && ageInMonths <= 144) {
+  } else if (ageInMonths >= 25 && ageInMonths <= 144) {
     return "ADULT";
-  }
-  else {
+  } else {
     return "SENIOR";
   }
-}
+};
 
 const getCatFase = (ageInMonths: number): fase => {
   if (ageInMonths >= 0 && ageInMonths <= 2) {
     return "BABY";
-  }
-  else if (ageInMonths >= 3 && ageInMonths <= 24) {
+  } else if (ageInMonths >= 3 && ageInMonths <= 24) {
     return "YOUNG";
-  }
-  else if (ageInMonths >= 25 && ageInMonths <= 144) {
+  } else if (ageInMonths >= 25 && ageInMonths <= 144) {
     return "ADULT";
-  }
-  else {
+  } else {
     return "SENIOR";
   }
-}
+};
 
 const getBirdFase = (ageInMonths: number): fase => {
   if (ageInMonths >= 0 && ageInMonths <= 1.5) {
     return "BABY";
-  }
-  else if (ageInMonths >= 1.3 && ageInMonths <= 11) {
+  } else if (ageInMonths >= 1.3 && ageInMonths <= 11) {
     return "YOUNG";
-  }
-  else if (ageInMonths >= 12 && ageInMonths <= 36) {
+  } else if (ageInMonths >= 12 && ageInMonths <= 36) {
     return "ADULT";
-  }
-  else {
+  } else {
     return "SENIOR";
   }
-}
+};
 
 const getRodentFase = (ageInMonths: number): fase => {
   if (ageInMonths >= 0 && ageInMonths <= 0.5) {
     return "BABY";
-  }
-  else if (ageInMonths >= 0.6 && ageInMonths <= 1.5) {
+  } else if (ageInMonths >= 0.6 && ageInMonths <= 1.5) {
     return "YOUNG";
-  }
-  else if (ageInMonths >= 1.6 && ageInMonths <= 4) {
+  } else if (ageInMonths >= 1.6 && ageInMonths <= 4) {
     return "ADULT";
-  }
-  else {
+  } else {
     return "SENIOR";
   }
-}
+};
 
 const getReptileFase = (ageInMonths: number): fase => {
   if (ageInMonths >= 0 && ageInMonths <= 2) {
     return "BABY";
-  }
-  else if (ageInMonths >= 3 && ageInMonths <= 6) {
+  } else if (ageInMonths >= 3 && ageInMonths <= 6) {
     return "YOUNG";
-  }
-  else if (ageInMonths >= 6 && ageInMonths <= 60) {
+  } else if (ageInMonths >= 6 && ageInMonths <= 60) {
     return "ADULT";
-  }
-  else {
+  } else {
     return "SENIOR";
   }
-}
-
+};

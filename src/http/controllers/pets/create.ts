@@ -1,7 +1,7 @@
-import { ResourceNotFound } from "@/services/errors/resourceNotFound"
-import { makeCreatePetService } from "@/services/factories/makeCreatePet"
-import { FastifyReply, FastifyRequest } from "fastify"
-import { z } from "zod"
+import { ResourceNotFound } from "@/services/errors/resourceNotFound";
+import { makeCreatePetService } from "@/services/factories/makeCreatePet";
+import { FastifyReply, FastifyRequest } from "fastify";
+import { z } from "zod";
 
 export const create = async (request: FastifyRequest, reply: FastifyReply) => {
   const createPetBodySchema = z.object({
@@ -13,34 +13,42 @@ export const create = async (request: FastifyRequest, reply: FastifyReply) => {
     size: z.enum(["SMALL", "MEDIUM", "LARGE"]),
     specie: z.enum(["DOG", "CAT", "BIRD", "RODENT", "REPTILE", "OTHER"]),
     imageUrls: z.array(z.string()).optional(),
-    isAdopted: z.coerce.boolean().optional()
-  })
+    isAdopted: z.coerce.boolean().optional(),
+  });
 
-  const { name, description, birthDate, organizationId, sex, size, specie, imageUrls, isAdopted } = createPetBodySchema.parse(request.body)
+  const {
+    name,
+    description,
+    birthDate,
+    organizationId,
+    sex,
+    size,
+    specie,
+    imageUrls,
+    isAdopted,
+  } = createPetBodySchema.parse(request.body);
 
-    const createPetService = makeCreatePetService()
+  const createPetService = makeCreatePetService();
 
-    try {
-
+  try {
     await createPetService.execute({
-      pet: { 
-      name,
-      description,
-      birthDate,
-      organizationId,
-      sex,
-      size,
-      specie,
-      isAdopted
+      pet: {
+        name,
+        description,
+        birthDate,
+        organizationId,
+        sex,
+        size,
+        specie,
+        isAdopted,
       },
-      imageUrls
-    })
+      imageUrls,
+    });
 
-    return reply.status(201).send()
-
+    return reply.status(201).send();
   } catch (err) {
-    if(err instanceof ResourceNotFound) {
-      return reply.status(401).send(err.message)
+    if (err instanceof ResourceNotFound) {
+      return reply.status(401).send(err.message);
     }
-}
-}
+  }
+};

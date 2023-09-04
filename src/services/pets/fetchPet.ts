@@ -1,24 +1,23 @@
-import { PetsRepository } from "@/repositories/petsRepository"
-import { Pet } from "@prisma/client"
-import { ResourceNotFound } from "../errors/resourceNotFound"
+import { PetsRepository } from "@/repositories/petsRepository";
+import { Pet } from "@prisma/client";
+import { ResourceNotFound } from "../errors/resourceNotFound";
 
 interface FetchPetServiceResponse {
-  pet: Pet
+  pet: Pet;
 }
 
 export class FetchPetService {
   constructor(private petsRepository: PetsRepository) {}
 
-  async execute(id: string) : Promise<FetchPetServiceResponse> {
-  
-    const pet = await this.petsRepository.findById(id)
+  async execute(id: string): Promise<FetchPetServiceResponse> {
+    const pet = await this.petsRepository.findById(id);
 
-    if(!pet){
-      throw new ResourceNotFound()
+    if (!pet) {
+      throw new ResourceNotFound();
     }
 
     return {
-      pet
-    }
+      pet,
+    };
   }
 }

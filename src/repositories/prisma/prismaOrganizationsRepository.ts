@@ -1,24 +1,30 @@
 import { prisma } from "@/lib/prisma";
 import { Prisma, Organization } from "@prisma/client";
 import { OrganizationsRepository } from "../organizationsRepository";
-import { CreateOrganizationType, UpdateOrganizationType } from "@/types/organizationTypes";
+import {
+  CreateOrganizationType,
+  UpdateOrganizationType,
+} from "@/types/organizationTypes";
 
 export class PrismaOrganizationsRepository implements OrganizationsRepository {
-  async update({imageUrls, organization}: UpdateOrganizationType): Promise<Organization> {
-
+  async update({
+    imageUrls,
+    organization,
+  }: UpdateOrganizationType): Promise<Organization> {
     await prisma.image.deleteMany({
       where: {
         organizationId: organization.id,
       },
     });
 
-    //if i was storaging image files in a the database, i would need to delete the old ones and create the new ones
+    // if i was storaging image files in a the database, i would need to delete the old ones and create the new ones
 
-    const updateImages: Prisma.ImageCreateManyPetInput[] = imageUrls?.map(url => ({ url })) ?? []
+    const updateImages: Prisma.ImageCreateManyPetInput[] =
+      imageUrls?.map((url) => ({ url })) ?? [];
 
     const updatedOrganization = await prisma.organization.update({
       where: {
-        id: organization.id
+        id: organization.id,
       },
       data: {
         ...organization,
@@ -30,12 +36,14 @@ export class PrismaOrganizationsRepository implements OrganizationsRepository {
       },
     });
 
-    return updatedOrganization
+    return updatedOrganization;
   }
-  async create({organization, imageUrls}: CreateOrganizationType) {
-    const createImages: Prisma.ImageCreateManyPetInput[] = imageUrls?.map(url => ({ url })) ?? []
 
-    //if i was storaging image files in a the database, i would need to create the new images there and pick the urls
+  async create({ organization, imageUrls }: CreateOrganizationType) {
+    const createImages: Prisma.ImageCreateManyPetInput[] =
+      imageUrls?.map((url) => ({ url })) ?? [];
+
+    // if i was storaging image files in a the database, i would need to create the new images there and pick the urls
 
     const createdOrganization = await prisma.organization.create({
       data: {
@@ -48,33 +56,32 @@ export class PrismaOrganizationsRepository implements OrganizationsRepository {
       },
     });
 
-    return createdOrganization
+    return createdOrganization;
   }
 
   async findByEmail(email: string) {
     const organization = await prisma.organization.findUnique({
       where: {
-        email
-      }
-    })
-    return organization
+        email,
+      },
+    });
+    return organization;
   }
 
   async findById(id: string): Promise<Organization | null> {
     const organization = await prisma.organization.findUnique({
       where: {
-        id
+        id,
       },
       include: {
         images: {
           select: {
-            url: true
-          }
+            url: true,
+          },
         },
         pets: true,
-      }
-    })
-    return organization
+      },
+    });
+    return organization;
   }
-
 }

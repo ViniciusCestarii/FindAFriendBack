@@ -1,31 +1,38 @@
-import { OrganizationsRepository } from "@/repositories/organizationsRepository"
-import { PetsRepository } from "@/repositories/petsRepository"
-import { $Enums, Pet } from "@prisma/client"
-import { ResourceNotFound } from "../errors/resourceNotFound"
-import { CreatePetType } from "@/types/petTypes"
+import { OrganizationsRepository } from "@/repositories/organizationsRepository";
+import { PetsRepository } from "@/repositories/petsRepository";
+import { Pet } from "@prisma/client";
+import { ResourceNotFound } from "../errors/resourceNotFound";
+import { CreatePetType } from "@/types/petTypes";
 
 interface CreatePetServiceResponse {
-  createdPet: Pet
+  createdPet: Pet;
 }
 
 export class CreatePetService {
-  constructor(private petsRepository: PetsRepository, private organizationsRepository: OrganizationsRepository) {}
+  constructor(
+    private petsRepository: PetsRepository,
+    private organizationsRepository: OrganizationsRepository,
+  ) {}
 
-  async execute({pet, imageUrls} : CreatePetType) : Promise<CreatePetServiceResponse> {
+  async execute({
+    pet,
+    imageUrls,
+  }: CreatePetType): Promise<CreatePetServiceResponse> {
+    const organization = await this.organizationsRepository.findById(
+      pet.organizationId,
+    );
 
-    const organization = await this.organizationsRepository.findById(pet.organizationId)
-
-    if(!organization){
-      throw new ResourceNotFound()
+    if (!organization) {
+      throw new ResourceNotFound();
     }
-  
+
     const createdPet = await this.petsRepository.create({
       pet,
-      imageUrls
-    })
+      imageUrls,
+    });
 
     return {
-      createdPet
-    }
+      createdPet,
+    };
   }
 }

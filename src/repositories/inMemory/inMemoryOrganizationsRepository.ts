@@ -1,16 +1,24 @@
-import { Prisma, Organization } from "@prisma/client";
+import { Organization } from "@prisma/client";
 import { OrganizationsRepository } from "../organizationsRepository";
 import { randomUUID } from "node:crypto";
-import { CreateOrganizationType, UpdateOrganizationType } from "@/types/organizationTypes";
-import { hash } from "bcryptjs";
+import {
+  CreateOrganizationType,
+  UpdateOrganizationType,
+} from "@/types/organizationTypes";
 
-export class InMemoryOrganizationsRepository implements OrganizationsRepository {
-  public items: Organization[] = []
+export class InMemoryOrganizationsRepository
+  implements OrganizationsRepository
+{
+  public items: Organization[] = [];
 
-  async update({organization}: UpdateOrganizationType): Promise<Organization> {
-    const organizationIndex = this.items.findIndex(item => item.id === organization.id)
+  async update({
+    organization,
+  }: UpdateOrganizationType): Promise<Organization> {
+    const organizationIndex = this.items.findIndex(
+      (item) => item.id === organization.id,
+    );
 
-    const updatedOrganization : Organization = {
+    const updatedOrganization: Organization = {
       cep: organization.cep,
       city: organization.city,
       email: organization.email,
@@ -23,15 +31,15 @@ export class InMemoryOrganizationsRepository implements OrganizationsRepository 
       street: organization.street,
       createdAt: this.items[organizationIndex].createdAt,
       updatedAt: this.items[organizationIndex].updatedAt,
-    }
+    };
 
-    this.items[organizationIndex] = updatedOrganization
+    this.items[organizationIndex] = updatedOrganization;
 
-    return updatedOrganization
+    return updatedOrganization;
   }
-  
+
   async create({ organization }: CreateOrganizationType) {
-    const createdOrganization : Organization = {
+    const createdOrganization: Organization = {
       id: organization.id ?? randomUUID(),
       name: organization.name,
       email: organization.email,
@@ -44,28 +52,32 @@ export class InMemoryOrganizationsRepository implements OrganizationsRepository 
       state: organization.state,
       street: organization.street,
       description: organization.description ?? null,
-    }
-    this.items.push(createdOrganization)
+    };
+    this.items.push(createdOrganization);
 
-    return createdOrganization
+    return createdOrganization;
   }
+
   async findByEmail(email: string) {
-    const organization = this.items.find(organization => organization.email === email)
-    if(!organization){
-      return null
+    const organization = this.items.find(
+      (organization) => organization.email === email,
+    );
+    if (!organization) {
+      return null;
     }
 
-    return organization
+    return organization;
   }
 
   async findById(id: string): Promise<Organization | null> {
-    const organization = this.items.find(organization => organization.id === id)
+    const organization = this.items.find(
+      (organization) => organization.id === id,
+    );
 
-    if(!organization){
-      return null
+    if (!organization) {
+      return null;
     }
 
-    return organization
+    return organization;
   }
-  
 }
