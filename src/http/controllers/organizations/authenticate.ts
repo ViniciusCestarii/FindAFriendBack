@@ -19,12 +19,23 @@ export const authenticate = async (
   const authenticateOrganizationService = makeAuthenticateOrganizationService();
 
   try {
-    await authenticateOrganizationService.execute({
+    const { organization } = await authenticateOrganizationService.execute({
       email,
       password,
     });
 
-    return reply.status(200).send();
+    const token = await reply.jwtSign(
+      {},
+      {
+        sign: {
+          sub: organization.id,
+        },
+      },
+    );
+
+    return reply.status(200).send({
+      token,
+    });
   } catch (err) {
     if (err instanceof ResourceNotFound) {
       return reply.status(401).send(err.message);

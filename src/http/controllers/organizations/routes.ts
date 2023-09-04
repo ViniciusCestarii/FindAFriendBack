@@ -3,6 +3,8 @@ import { update } from "./update";
 import { fetch } from "./fetch";
 import { register } from "./register";
 import { authenticate } from "./authenticate";
+import { profile } from "./profile";
+import { verifyJWT } from "@/http/middlewares/vefifyJwt";
 
 export const organizationsRoutes = async (app: FastifyInstance) => {
   app.get("/organization/:id", fetch);
@@ -10,5 +12,8 @@ export const organizationsRoutes = async (app: FastifyInstance) => {
   app.post("/sessions", authenticate);
   app.post("/organizations", register);
 
-  app.put("/organization/:id", update);
+  /* Authenticated Routes */
+  app.get("/me", { onRequest: [verifyJWT] }, profile);
+
+  app.put("/organization/:id", { onRequest: [verifyJWT] }, update);
 };
