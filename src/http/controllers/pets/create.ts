@@ -6,7 +6,7 @@ import { z } from "zod";
 export const create = async (request: FastifyRequest, reply: FastifyReply) => {
   const createPetBodySchema = z.object({
     name: z.string(),
-    description: z.string(),
+    description: z.string().optional(),
     birthDate: z.coerce.date(),
     organizationId: z.string().uuid(),
     sex: z.enum(["MALE", "FEMALE"]),

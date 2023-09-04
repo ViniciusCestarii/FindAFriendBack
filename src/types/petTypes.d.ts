@@ -26,7 +26,7 @@ export interface UpdatePetType {
     id: string;
     birthDate: Date;
     isAdopted: boolean;
-    description: string;
+    description: string | undefined;
     name: string;
     organizationId: string;
     sex: $Enums.Sex;

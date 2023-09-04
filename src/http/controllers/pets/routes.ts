@@ -3,12 +3,15 @@ import { create } from "./create";
 import { searchMany } from "./searchMany";
 import { update } from "./update";
 import { fetch } from "./fetch";
+import { verifyJWT } from "@/http/middlewares/vefifyJwt";
 
 export const petsRoutes = async (app: FastifyInstance) => {
   app.get("/pet/:id", fetch);
 
-  app.post("/pets", create);
   app.post("/pets/search", searchMany);
 
-  app.put("/pet/:id", update);
+  /* Authenticated Routes */
+
+  app.put("/pet/:id", { onRequest: [verifyJWT] }, update);
+  app.post("/pets", { onRequest: [verifyJWT] }, create);
 };

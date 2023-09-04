@@ -11,7 +11,7 @@ export const update = async (request: FastifyRequest, reply: FastifyReply) => {
   const updatePetBodySchema = z.object({
     organizationId: z.string().uuid(),
     name: z.string(),
-    description: z.string(),
+    description: z.string().optional(),
     birthDate: z.coerce.date(),
     sex: z.enum(["MALE", "FEMALE"]),
     size: z.enum(["SMALL", "MEDIUM", "LARGE"]),

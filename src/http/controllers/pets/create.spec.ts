@@ -1,6 +1,5 @@
 import { app } from "@/app";
-import { prisma } from "@/lib/prisma";
-import { hash } from "bcryptjs";
+import { createAndAuthenticateOrganization } from "@/utils/test/createAndAuthenticateOrganization";
 import request from "supertest";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
@@ -14,23 +13,11 @@ describe("Create pet (e2e)", () => {
   });
 
   it("should be able to create a pet", async () => {
-    const organization = await prisma.organization.create({
-      data: {
-        name: "John Doe",
-        email: "johndoe@example.com",
-        passwordHash: await hash("123456", 6),
-        cep: "123456",
-        city: "Natal",
-        phone: "123456",
-        state: "RN",
-        street: "Rua",
-      },
-    });
+    const { token, id } = await createAndAuthenticateOrganization(app);
 
     const data = {
       name: "pet name",
-      description: "some description",
-      organizationId: organization.id,
+      organizationId: id,
       birthDate: new Date("2021-09-09"),
       sex: "FEMALE",
       size: "SMALL",
@@ -40,6 +27,7 @@ describe("Create pet (e2e)", () => {
 
     const createPetResponse = await request(app.server)
       .post("/pets")
+      .set("Authorization", `Bearer ${token}`)
       .send(data);
 
     expect(createPetResponse.status).toBe(201);
