@@ -35,25 +35,12 @@ export class PrismaPetsRepository implements PetsRepository {
       };
     }
 
-    if (searchData.sex !== undefined) {
-      petFilters.sex = searchData.sex;
-    }
-
-    if (searchData.size !== undefined) {
-      petFilters.size = searchData.size;
-    }
-
-    if (searchData.specie !== undefined) {
-      petFilters.specie = searchData.specie;
-    }
-
-    if (searchData.isAdopted !== undefined) {
-      petFilters.isAdopted = searchData.isAdopted;
-    }
+    delete searchData.city;
+    delete searchData.state;
 
     const pets = await prisma.pet.findMany({
       where: {
-        ...petFilters,
+        ...searchData,
         organization: organizationFilters,
       },
       include: {
