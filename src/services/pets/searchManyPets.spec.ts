@@ -17,6 +17,7 @@ describe("Search Many Pets Service", () => {
     inMemoryOrganizationsRepository = new InMemoryOrganizationsRepository();
     inMemoryOrganizationsRepository.create({
       organization: {
+        cnpj: "123456",
         name: "Dogs Organization",
         cep: "123456",
         city: "Natal",
@@ -30,6 +31,7 @@ describe("Search Many Pets Service", () => {
     });
     inMemoryOrganizationsRepository.create({
       organization: {
+        cnpj: "123456",
         name: "Dogs Organization",
         cep: "123456",
         city: "Mossoró",

@@ -25,6 +25,7 @@ describe("Update Pet Service", () => {
   it("should be able to update a pet", async () => {
     await inMemoryOrganizationsRepository.create({
       organization: {
+        cnpj: "123456",
         cep: "00000000",
         city: "city",
         email: "email",
@@ -76,6 +77,7 @@ describe("Update Pet Service", () => {
   it("should not be able to update a non-existent pet", async () => {
     await inMemoryOrganizationsRepository.create({
       organization: {
+        cnpj: "123456",
         cep: "00000000",
         city: "city",
         email: "email",

@@ -14,6 +14,7 @@ describe("Refresh Organization Token (e2e)", () => {
   it("should be able to refresh a organization token", async () => {
     await request(app.server).post("/organizations").send({
       name: "John Doe",
+      cnpj: "48.390.507/0001-25",
       email: "johndoe@example.com",
       password: "123456",
       cep: "12345-876",

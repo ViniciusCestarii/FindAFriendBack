@@ -16,6 +16,7 @@ describe("Search many pets (e2e)", () => {
   it("should be able search pets", async () => {
     const organization = await prisma.organization.create({
       data: {
+        cnpj: "123456789",
         name: "John Doe",
         email: "johndoe@example.com",
         passwordHash: await hash("123456", 6),

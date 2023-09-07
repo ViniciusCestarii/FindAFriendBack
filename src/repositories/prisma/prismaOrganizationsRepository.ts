@@ -7,6 +7,19 @@ import {
 } from "@/types/organizationTypes";
 
 export class PrismaOrganizationsRepository implements OrganizationsRepository {
+  async findByCnpj(cnpj: string): Promise<Organization | null> {
+    const organization = prisma.organization.findUnique({
+      where: {
+        cnpj,
+      },
+    });
+    if (!organization) {
+      return null;
+    }
+
+    return organization;
+  }
+
   async update({
     imageUrls,
     organization,

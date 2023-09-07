@@ -21,7 +21,6 @@ export const update = async (request: FastifyRequest, reply: FastifyReply) => {
 
   const { id, description, imageUrls, name, cep, city, phone, state, street } =
     updateOrganizationBodySchema.parse(request.body);
-  console.log(request.body);
   const updateOrganizationService = makeUpdateOrganizationService();
 
   try {

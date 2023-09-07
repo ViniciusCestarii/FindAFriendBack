@@ -15,6 +15,7 @@ describe("Register a organization (e2e)", () => {
     const registerOrganizationResponse = await request(app.server)
       .post(`/organizations`)
       .send({
+        cnpj: "48.390.507/0001-25",
         name: "John Doe",
         email: "johndoe@example.com",
         password: "123456",
@@ -27,6 +28,7 @@ describe("Register a organization (e2e)", () => {
         imageUrls: [],
       });
 
+    console.log(registerOrganizationResponse.body);
     expect(registerOrganizationResponse.status).toBe(201);
   });
 });

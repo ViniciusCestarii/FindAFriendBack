@@ -18,6 +18,7 @@ describe("Authenticate a organization (e2e)", () => {
 
     await prisma.organization.create({
       data: {
+        cnpj: "48.390.507/0001-25",
         cep: "12345-876",
         city: "Natal",
         email: "johndoe@example.com",

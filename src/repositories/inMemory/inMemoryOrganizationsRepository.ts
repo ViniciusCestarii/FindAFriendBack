@@ -18,19 +18,23 @@ export class InMemoryOrganizationsRepository
       (item) => item.id === organization.id,
     );
 
+    const oldOrganization = this.items[organizationIndex];
+
     const updatedOrganization: Organization = {
-      cep: organization.cep,
-      city: organization.city,
-      email: organization.email,
+      cnpj: oldOrganization.cnpj,
+      cep: organization.cep?.toString() ?? oldOrganization.cep,
+      city: organization.city?.toString() ?? oldOrganization.city,
+      email: organization.email?.toString() ?? oldOrganization.email,
       id: organization.id,
-      name: organization.name,
-      passwordHash: this.items[organizationIndex].passwordHash,
-      phone: organization.phone,
-      description: organization.description,
-      state: organization.state,
-      street: organization.street,
-      createdAt: this.items[organizationIndex].createdAt,
-      updatedAt: this.items[organizationIndex].updatedAt,
+      name: organization.name?.toString() ?? oldOrganization.name,
+      passwordHash: oldOrganization.passwordHash,
+      phone: organization.phone?.toString() ?? oldOrganization.phone,
+      description:
+        organization.description?.toString() ?? oldOrganization.description,
+      state: organization.state?.toString() ?? oldOrganization.state,
+      street: organization.street?.toString() ?? oldOrganization.street,
+      createdAt: oldOrganization.createdAt,
+      updatedAt: oldOrganization.updatedAt,
     };
 
     this.items[organizationIndex] = updatedOrganization;
@@ -40,6 +44,7 @@ export class InMemoryOrganizationsRepository
 
   async create({ organization }: CreateOrganizationType) {
     const createdOrganization: Organization = {
+      cnpj: organization.cnpj,
       id: organization.id ?? randomUUID(),
       name: organization.name,
       email: organization.email,
@@ -61,6 +66,17 @@ export class InMemoryOrganizationsRepository
   async findByEmail(email: string) {
     const organization = this.items.find(
       (organization) => organization.email === email,
+    );
+    if (!organization) {
+      return null;
+    }
+
+    return organization;
+  }
+
+  async findByCnpj(cnpj: string): Promise<Organization | null> {
+    const organization = this.items.find(
+      (organization) => organization.cnpj === cnpj,
     );
     if (!organization) {
       return null;

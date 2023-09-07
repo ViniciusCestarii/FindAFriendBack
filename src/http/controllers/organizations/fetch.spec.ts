@@ -16,6 +16,7 @@ describe("Fetch a organization (e2e)", () => {
   it("should be able to fetch a organization", async () => {
     const organization = await prisma.organization.create({
       data: {
+        cnpj: "48.390.507/0001-25",
         name: "John Doe",
         email: "johndoe@example.com",
         passwordHash: await hash("123456", 6),

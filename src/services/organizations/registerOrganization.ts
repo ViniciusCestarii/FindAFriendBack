@@ -1,11 +1,12 @@
 import { OrganizationsRepository } from "@/repositories/organizationsRepository";
 import { Organization } from "@prisma/client";
 import { hash } from "bcryptjs";
-import { EmailAlreadyExistsError } from "../errors/emailAlreadyExistsError";
+import { OrganizationAlredyExistsError } from "../errors/organizationAlredyExistsError";
 
 export interface RegisterOrganizationServiceRequest {
   organization: {
     id?: string | undefined;
+    cnpj: string;
     name: string;
     email: string;
     password: string;
@@ -35,8 +36,11 @@ export class RegisterOrganizationService {
     const organizationWithSameEmail =
       await this.organizationsRepository.findByEmail(organization.email);
 
-    if (organizationWithSameEmail) {
-      throw new EmailAlreadyExistsError();
+    const organizationWithSameCNPJ =
+      await this.organizationsRepository.findByCnpj(organization.cnpj);
+
+    if (organizationWithSameEmail || organizationWithSameCNPJ) {
+      throw new OrganizationAlredyExistsError();
     }
 
     const organizationToCreate = {

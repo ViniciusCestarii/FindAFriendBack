@@ -20,6 +20,7 @@ describe("Update Organization Service", () => {
     const organization = await inMemoryOrganizationsRepository.create({
       organization: {
         id: organizationId,
+        cnpj: "123456",
         cep: "123456",
         city: "Natal",
         email: "teste@gmail.com",
