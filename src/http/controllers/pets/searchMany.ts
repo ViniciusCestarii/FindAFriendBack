@@ -15,7 +15,7 @@ export const searchMany = async (
       .enum(["DOG", "CAT", "BIRD", "RODENT", "REPTILE", "OTHER"])
       .optional(),
     fase: z.enum(["BABY", "YOUNG", "ADULT", "SENIOR"]).optional(),
-    isAdopted: z.coerce.boolean().optional().optional(),
+    isAdopted: z.coerce.boolean().optional(),
     page: z.coerce.number(),
     city: z.string().optional(),
     state: z.string().optional(),
