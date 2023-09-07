@@ -1,12 +1,12 @@
 import { Prisma } from "@prisma/client";
 
-export interface UpdateOrganizationType {
-  organization: Prisma.OrganizationUpdateInput;
-  imageUrls: string[] | undefined;
-}
-
 interface updateOrganization extends Prisma.OrganizationUpdateInput {
   id: string;
+}
+
+export interface UpdateOrganizationType {
+  organization: updateOrganization;
+  imageUrls: string[] | undefined;
 }
 
 export interface CreateOrganizationType {
