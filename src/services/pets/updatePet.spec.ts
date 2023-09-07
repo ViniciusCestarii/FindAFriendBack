@@ -56,9 +56,7 @@ describe("Update Pet Service", () => {
         name: "Another name",
         birthDate: new Date("2021-09-09"),
         description: "description",
-        organizationId: "organizationId",
         isAdopted: false,
-        sex: "MALE",
         size: "SMALL",
         specie: "DOG",
       },
@@ -70,8 +68,7 @@ describe("Update Pet Service", () => {
         name: "Another name",
         description: pet.description,
         birthDate: pet.birthDate,
-        organizationId: pet.organizationId,
-        sex: "MALE",
+        sex: "FEMALE",
       }),
     );
   });
@@ -100,38 +97,6 @@ describe("Update Pet Service", () => {
           name: "Another name",
           birthDate: new Date("2021-09-09"),
           description: "description",
-          organizationId: "organizationId",
-          isAdopted: false,
-          sex: "MALE",
-          size: "SMALL",
-          specie: "DOG",
-        },
-        imageUrls: undefined,
-      }),
-    ).rejects.toBeInstanceOf(ResourceNotFound);
-  });
-
-  it("should not be able to update a pet to a non-existing organization", async () => {
-    const pet = await inMemoryPetsRepository.create({
-      pet: {
-        name: "John Doe",
-        birthDate: new Date("2021-09-09"),
-        description: "description",
-        organizationId: "organizationId",
-        sex: "FEMALE",
-        size: "SMALL",
-        specie: "DOG",
-      },
-    });
-
-    await expect(
-      sut.execute({
-        pet: {
-          id: pet.id,
-          name: "Another name",
-          birthDate: new Date("2021-09-09"),
-          description: "description",
-          organizationId: "non-existent-organization-id",
           isAdopted: false,
           sex: "MALE",
           size: "SMALL",

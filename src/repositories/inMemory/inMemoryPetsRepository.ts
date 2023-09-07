@@ -46,7 +46,7 @@ export class InMemoryPetsRepository implements PetsRepository {
   }
 
   async searchMany(params: SearchManyPetsParams): Promise<Pet[]> {
-    const { searchData, page } = params;
+    const { petSearchData, organizationSearchData, page } = params;
     const foundPets = await Promise.all(
       this.items.map(async (pet) => {
         const organization =
@@ -59,17 +59,19 @@ export class InMemoryPetsRepository implements PetsRepository {
         }
 
         return (
-          (searchData.isAdopted
-            ? pet.isAdopted === searchData.isAdopted
-            : !pet.isAdopted) &&
-          (!searchData.city || organization.city === searchData.city) &&
-          (!searchData.state || organization.state === searchData.state) &&
-          (!searchData.sex || pet.sex === searchData.sex) &&
-          (!searchData.size || pet.size === searchData.size) &&
-          (!searchData.specie || pet.specie === searchData.specie) &&
-          (!searchData.fase ||
+          (petSearchData.isAdopted
+            ? pet.isAdopted === petSearchData.isAdopted
+            : pet.isAdopted === false) &&
+          (!organizationSearchData.city ||
+            organization.city === organizationSearchData.city) &&
+          (!organizationSearchData.state ||
+            organization.state === organizationSearchData.state) &&
+          (!petSearchData.sex || pet.sex === petSearchData.sex) &&
+          (!petSearchData.size || pet.size === petSearchData.size) &&
+          (!petSearchData.specie || pet.specie === petSearchData.specie) &&
+          (!petSearchData.fase ||
             getPetFase({ birthDate: pet.birthDate, specie: pet.specie }) ===
-              searchData.fase)
+              petSearchData.fase)
         );
       }),
     );
@@ -82,18 +84,22 @@ export class InMemoryPetsRepository implements PetsRepository {
   async update({ pet }: UpdatePetType): Promise<Pet> {
     const petIndex = this.items.findIndex((item) => item.id === pet.id);
 
+    const oldPet = this.items[petIndex];
+
     const updatedPet: Pet = {
-      birthDate: pet.birthDate,
-      isAdopted: pet.isAdopted,
-      organizationId: pet.organizationId,
-      size: pet.size,
-      sex: pet.sex,
-      specie: pet.specie,
-      createdAt: this.items[petIndex].createdAt,
-      description: pet.description ?? null,
-      name: pet.name,
-      id: pet.id,
-      updatedAt: this.items[petIndex].updatedAt,
+      birthDate: pet.birthDate
+        ? new Date(pet.birthDate.toString())
+        : oldPet.birthDate,
+      isAdopted: Boolean(pet.isAdopted) ?? oldPet.isAdopted,
+      size: (pet.size as $Enums.Size) ?? oldPet.size,
+      sex: (pet.sex as $Enums.Sex) ?? oldPet.sex,
+      specie: (pet.specie as $Enums.Specie) ?? oldPet.specie,
+      createdAt: oldPet.createdAt,
+      description: pet.description?.toString() ?? oldPet.description,
+      name: pet.name?.toString() ?? oldPet.name,
+      id: oldPet.id,
+      organizationId: oldPet.organizationId,
+      updatedAt: oldPet.updatedAt,
     };
 
     this.items[petIndex] = updatedPet;

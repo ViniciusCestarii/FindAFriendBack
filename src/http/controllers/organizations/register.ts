@@ -1,4 +1,4 @@
-import { ResourceNotFound } from "@/services/errors/resourceNotFound";
+import { EmailAlreadyExistsError } from "@/services/errors/emailAlreadyExistsError";
 import { makeRegisterOrganizationService } from "@/services/factories/organizations/makeRegisterOrganization";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
@@ -53,7 +53,7 @@ export const register = async (
 
     return reply.status(201).send();
   } catch (err) {
-    if (err instanceof ResourceNotFound) {
+    if (err instanceof EmailAlreadyExistsError) {
       return reply.status(401).send(err.message);
     }
   }

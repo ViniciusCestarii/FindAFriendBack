@@ -10,11 +10,13 @@ export class SearchManyPetsService {
   constructor(private petsRepository: PetsRepository) {}
 
   async execute({
-    searchData,
+    organizationSearchData,
+    petSearchData,
     page,
   }: SearchManyPetsParams): Promise<SearchManyPetsServiceResponse> {
     const pets = await this.petsRepository.searchMany({
-      searchData,
+      organizationSearchData,
+      petSearchData,
       page,
     });
 

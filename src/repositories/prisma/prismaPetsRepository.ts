@@ -9,39 +9,36 @@ import {
 import { getPetBirthDateFilter } from "@/utils/getPetBirthDateFilter";
 
 export class PrismaPetsRepository implements PetsRepository {
-  async searchMany({ searchData, page }: SearchManyPetsParams): Promise<Pet[]> {
+  async searchMany({
+    petSearchData,
+    organizationSearchData,
+    page,
+  }: SearchManyPetsParams): Promise<Pet[]> {
     const petFilters: Prisma.PetWhereInput = {};
-    const organizationFilters: Prisma.OrganizationWhereInput = {};
 
-    if (searchData.city !== undefined) {
-      organizationFilters.city = searchData.city;
-    }
-
-    if (searchData.state !== undefined) {
-      organizationFilters.state = searchData.state;
-    }
-
-    if (searchData.fase !== undefined && searchData.specie !== undefined) {
+    if (
+      petSearchData.fase !== undefined &&
+      petSearchData.specie !== undefined
+    ) {
       petFilters.birthDate = getPetBirthDateFilter({
-        fase: searchData.fase,
-        specie: searchData.specie,
+        fase: petSearchData.fase,
+        specie: petSearchData.specie,
       });
     }
 
-    if (searchData.name !== undefined) {
+    if (petSearchData.name !== undefined) {
       petFilters.name = {
-        contains: searchData.name.toLocaleUpperCase(),
+        contains: petSearchData.name.toLocaleUpperCase(),
         mode: "insensitive",
       };
     }
 
-    delete searchData.city;
-    delete searchData.state;
+    delete petSearchData.fase;
 
     const pets = await prisma.pet.findMany({
       where: {
-        ...searchData,
-        organization: organizationFilters,
+        ...petSearchData,
+        organization: organizationSearchData,
       },
       include: {
         images: {

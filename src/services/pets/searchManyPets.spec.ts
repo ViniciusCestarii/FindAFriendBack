@@ -85,9 +85,11 @@ describe("Search Many Pets Service", () => {
     });
 
     const { pets } = await sut.execute({
-      searchData: {
-        city: "Natal",
+      petSearchData: {
         size: "SMALL",
+      },
+      organizationSearchData: {
+        city: "Natal",
       },
       page: 1,
     });
@@ -157,7 +159,8 @@ describe("Search Many Pets Service", () => {
     });
 
     const { pets } = await sut.execute({
-      searchData: {
+      petSearchData: {},
+      organizationSearchData: {
         state: "RN",
       },
       page: 1,
@@ -240,10 +243,11 @@ describe("Search Many Pets Service", () => {
     });
 
     const { pets } = await sut.execute({
-      searchData: {
+      petSearchData: {
         fase: "YOUNG",
         size: "SMALL",
       },
+      organizationSearchData: {},
       page: 1,
     });
 

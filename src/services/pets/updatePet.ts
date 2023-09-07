@@ -24,20 +24,7 @@ export class UpdatePetService {
       throw new ResourceNotFound();
     }
 
-    const organizationFound = await this.organizationsRepository.findById(
-      pet.organizationId,
-    );
-
-    if (!organizationFound) {
-      throw new ResourceNotFound();
-    }
-
-    const petToUpdate: UpdatePetType = {
-      pet,
-      imageUrls,
-    };
-
-    const updatedPet = await this.petsRepository.update(petToUpdate);
+    const updatedPet = await this.petsRepository.update({ imageUrls, pet });
 
     return {
       updatedPet,

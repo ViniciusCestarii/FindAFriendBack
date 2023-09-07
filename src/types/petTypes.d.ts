@@ -3,15 +3,18 @@ import { $Enums, Prisma } from "@prisma/client";
 export type fase = "BABY" | "YOUNG" | "ADULT" | "SENIOR";
 
 export interface SearchManyPetsParams {
-  searchData: {
+  petSearchData: {
     name?: string;
-    city?: string;
-    state?: string;
     fase?: fase;
     sex?: $Enums.Sex;
     size?: $Enums.Size;
     specie?: $Enums.Specie;
     isAdopted?: boolean;
+  };
+  organizationSearchData: {
+    organizationId?: string;
+    city?: string;
+    state?: string;
   };
   page: number;
 }
@@ -21,17 +24,11 @@ export interface CreatePetType {
   imageUrls?: string[] | undefined;
 }
 
+interface updatePet extends Prisma.PetUpdateInput {
+  id: string;
+}
+
 export interface UpdatePetType {
-  pet: {
-    id: string;
-    birthDate: Date;
-    isAdopted: boolean;
-    description: string | undefined;
-    name: string;
-    organizationId: string;
-    sex: $Enums.Sex;
-    size: $Enums.Size;
-    specie: $Enums.Specie;
-  };
+  pet: updatePet;
   imageUrls: string[] | undefined;
 }

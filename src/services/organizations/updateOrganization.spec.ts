@@ -33,7 +33,7 @@ describe("Update Organization Service", () => {
 
     const { updatedOrganization } = await sut.execute({
       organization: {
-        id: organization.id,
+        id: organizationId,
         name: "Another name",
         description: "description",
         cep: organization.cep,

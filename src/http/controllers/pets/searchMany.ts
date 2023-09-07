@@ -17,21 +17,38 @@ export const searchMany = async (
     fase: z.enum(["BABY", "YOUNG", "ADULT", "SENIOR"]).optional(),
     isAdopted: z.coerce.boolean().optional().optional(),
     page: z.coerce.number(),
+    city: z.string().optional(),
+    state: z.string().optional(),
   });
 
-  const { name, fase, sex, size, specie, isAdopted, page } =
-    searchManyPetBodySchema.parse(request.body);
+  const {
+    name,
+    fase,
+    sex,
+    size,
+    specie,
+    isAdopted,
+    city,
+    organizationId,
+    state,
+    page,
+  } = searchManyPetBodySchema.parse(request.body);
 
   const searchManyGymService = makeSearchManyPetsService();
 
   const { pets } = await searchManyGymService.execute({
-    searchData: {
+    petSearchData: {
       name,
       fase,
       sex,
       size,
       specie,
       isAdopted,
+    },
+    organizationSearchData: {
+      organizationId,
+      city,
+      state,
     },
     page,
   });

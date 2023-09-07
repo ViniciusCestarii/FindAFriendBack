@@ -6,30 +6,22 @@ import { z } from "zod";
 export const update = async (request: FastifyRequest, reply: FastifyReply) => {
   const updateOrganizationBodySchema = z.object({
     id: z.string().uuid(),
-    name: z.string(),
-    description: z.string().nullable(),
+    name: z.string().optional(),
+    description: z.string().nullable().optional(),
     imageUrls: z.array(z.string()).optional(),
-    cep: z.string().regex(/^\d{5}-\d{3}$/),
-    city: z.string(),
-    state: z.string(),
-    street: z.string(),
-    email: z.string().email(),
-    phone: z.string(),
+    cep: z
+      .string()
+      .regex(/^\d{5}-\d{3}$/)
+      .optional(),
+    city: z.string().optional(),
+    state: z.string().optional(),
+    street: z.string().optional(),
+    phone: z.string().optional(),
   });
 
-  const {
-    id,
-    description,
-    imageUrls,
-    name,
-    cep,
-    city,
-    email,
-    phone,
-    state,
-    street,
-  } = updateOrganizationBodySchema.parse(request.body);
-
+  const { id, description, imageUrls, name, cep, city, phone, state, street } =
+    updateOrganizationBodySchema.parse(request.body);
+  console.log(request.body);
   const updateOrganizationService = makeUpdateOrganizationService();
 
   try {
@@ -42,7 +34,6 @@ export const update = async (request: FastifyRequest, reply: FastifyReply) => {
         city,
         state,
         street,
-        email,
         phone,
       },
       imageUrls,
