@@ -11,7 +11,15 @@ export const create = async (request: FastifyRequest, reply: FastifyReply) => {
     organizationId: z.string().uuid(),
     sex: z.enum(["MALE", "FEMALE"]),
     size: z.enum(["SMALL", "MEDIUM", "LARGE"]),
-    specie: z.enum(["DOG", "CAT", "BIRD", "RODENT", "REPTILE", "OTHER"]),
+    specie: z.enum([
+      "DOG",
+      "CAT",
+      "BIRD",
+      "RODENT",
+      "REPTILE",
+      "FISH",
+      "OTHER",
+    ]),
     imageUrls: z.array(z.string()).optional(),
     isAdopted: z.coerce.boolean().optional(),
   });

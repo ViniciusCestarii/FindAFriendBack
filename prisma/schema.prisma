@@ -21,6 +21,7 @@ enum Specie {
   BIRD
   RODENT
   REPTILE
+  FISH
   OTHER
 }
 

@@ -12,7 +12,7 @@ export const searchMany = async (
     sex: z.enum(["MALE", "FEMALE"]).optional(),
     size: z.enum(["SMALL", "MEDIUM", "LARGE"]).optional(),
     specie: z
-      .enum(["DOG", "CAT", "BIRD", "RODENT", "REPTILE", "OTHER"])
+      .enum(["DOG", "CAT", "BIRD", "RODENT", "REPTILE", "FISH", "OTHER"])
       .optional(),
     fase: z.enum(["BABY", "YOUNG", "ADULT", "SENIOR"]).optional(),
     isAdopted: z.coerce.boolean().optional(),

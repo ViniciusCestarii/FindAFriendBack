@@ -48,6 +48,9 @@ export class PrismaPetsRepository implements PetsRepository {
         },
         organization: true,
       },
+      orderBy: {
+        name: "asc",
+      },
       skip: (page - 1) * 20,
       take: 20,
     });

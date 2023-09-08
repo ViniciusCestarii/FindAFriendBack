@@ -27,6 +27,8 @@ export const getPetBirthDateFilter = ({
       return getRodentfilter(fase);
     case "REPTILE":
       return getReptilefilter(fase);
+    case "FISH":
+      return getFishfilter(fase);
     default:
       return undefined; // Unknown species
   }
@@ -147,6 +149,29 @@ const getReptilefilter = (fase: fase): getSpecieFilterReturn => {
   } else {
     return {
       lte: subtractMonthsFromToday(60),
+    };
+  }
+};
+
+const getFishfilter = (fase: fase): getSpecieFilterReturn => {
+  if (fase === "BABY") {
+    return {
+      gte: subtractMonthsFromToday(0.2),
+      lte: new Date(),
+    };
+  } else if (fase === "YOUNG") {
+    return {
+      gte: subtractMonthsFromToday(3),
+      lte: subtractMonthsFromToday(0.2),
+    };
+  } else if (fase === "ADULT") {
+    return {
+      gte: subtractMonthsFromToday(24),
+      lte: subtractMonthsFromToday(3),
+    };
+  } else {
+    return {
+      lte: subtractMonthsFromToday(24),
     };
   }
 };

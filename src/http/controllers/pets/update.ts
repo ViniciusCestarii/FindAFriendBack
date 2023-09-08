@@ -12,7 +12,15 @@ export const update = async (request: FastifyRequest, reply: FastifyReply) => {
     birthDate: z.coerce.date(),
     sex: z.enum(["MALE", "FEMALE"]),
     size: z.enum(["SMALL", "MEDIUM", "LARGE"]),
-    specie: z.enum(["DOG", "CAT", "BIRD", "RODENT", "REPTILE", "OTHER"]),
+    specie: z.enum([
+      "DOG",
+      "CAT",
+      "BIRD",
+      "RODENT",
+      "REPTILE",
+      "FISH",
+      "OTHER",
+    ]),
     imageUrls: z.array(z.string()),
     isAdopted: z.coerce.boolean(),
   });
