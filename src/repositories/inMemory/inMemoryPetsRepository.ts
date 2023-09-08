@@ -45,7 +45,7 @@ export class InMemoryPetsRepository implements PetsRepository {
     return pet;
   }
 
-  async searchMany(params: SearchManyPetsParams): Promise<Pet[]> {
+  async searchMany(params: SearchManyPetsParams) {
     const { petSearchData, organizationSearchData, page } = params;
     const foundPets = await Promise.all(
       this.items.map(async (pet) => {
@@ -76,9 +76,12 @@ export class InMemoryPetsRepository implements PetsRepository {
       }),
     );
 
-    return this.items
-      .filter((_, index) => foundPets[index])
-      .slice((page - 1) * 20, page * 20);
+    return {
+      pets: this.items
+        .filter((_, index) => foundPets[index])
+        .slice((page - 1) * 20, page * 20),
+      count: this.items.filter((_, index) => foundPets[index]).length,
+    };
   }
 
   async update({ pet }: UpdatePetType): Promise<Pet> {

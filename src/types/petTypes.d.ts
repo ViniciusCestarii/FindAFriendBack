@@ -1,4 +1,4 @@
-import { $Enums, Prisma } from "@prisma/client";
+import { $Enums, Pet, Prisma } from "@prisma/client";
 
 export type fase = "BABY" | "YOUNG" | "ADULT" | "SENIOR";
 
@@ -17,6 +17,11 @@ export interface SearchManyPetsParams {
     state?: string;
   };
   page: number;
+}
+
+export interface SerachManyPetsReturn {
+  pets: Pet[];
+  count: number;
 }
 
 export interface CreatePetType {

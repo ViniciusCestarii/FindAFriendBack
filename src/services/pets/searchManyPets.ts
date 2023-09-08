@@ -1,10 +1,5 @@
 import { PetsRepository } from "@/repositories/petsRepository";
-import { SearchManyPetsParams } from "@/types/petTypes";
-import { Pet } from "@prisma/client";
-
-interface SearchManyPetsServiceResponse {
-  pets: Pet[];
-}
+import { SearchManyPetsParams, SerachManyPetsReturn } from "@/types/petTypes";
 
 export class SearchManyPetsService {
   constructor(private petsRepository: PetsRepository) {}
@@ -13,8 +8,8 @@ export class SearchManyPetsService {
     organizationSearchData,
     petSearchData,
     page,
-  }: SearchManyPetsParams): Promise<SearchManyPetsServiceResponse> {
-    const pets = await this.petsRepository.searchMany({
+  }: SearchManyPetsParams): Promise<SerachManyPetsReturn> {
+    const { pets, count } = await this.petsRepository.searchMany({
       organizationSearchData,
       petSearchData,
       page,
@@ -22,6 +17,7 @@ export class SearchManyPetsService {
 
     return {
       pets,
+      count,
     };
   }
 }

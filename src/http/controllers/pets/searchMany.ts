@@ -36,7 +36,7 @@ export const searchMany = async (
 
   const searchManyGymService = makeSearchManyPetsService();
 
-  const { pets } = await searchManyGymService.execute({
+  const { pets, count } = await searchManyGymService.execute({
     petSearchData: {
       name,
       fase,
@@ -55,5 +55,6 @@ export const searchMany = async (
 
   return reply.status(200).send({
     pets,
+    count,
   });
 };

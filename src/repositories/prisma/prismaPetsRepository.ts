@@ -4,6 +4,7 @@ import { PetsRepository } from "../petsRepository";
 import {
   CreatePetType,
   SearchManyPetsParams,
+  SerachManyPetsReturn,
   UpdatePetType,
 } from "@/types/petTypes";
 import { getPetBirthDateFilter } from "@/utils/getPetBirthDateFilter";
@@ -13,7 +14,7 @@ export class PrismaPetsRepository implements PetsRepository {
     petSearchData,
     organizationSearchData,
     page,
-  }: SearchManyPetsParams): Promise<Pet[]> {
+  }: SearchManyPetsParams): Promise<SerachManyPetsReturn> {
     const petFilters: Prisma.PetWhereInput = {};
 
     if (
@@ -35,6 +36,13 @@ export class PrismaPetsRepository implements PetsRepository {
 
     delete petSearchData.fase;
 
+    const count = await prisma.pet.count({
+      where: {
+        ...petSearchData,
+        organization: organizationSearchData,
+      },
+    });
+
     const pets = await prisma.pet.findMany({
       where: {
         ...petSearchData,
@@ -55,7 +63,7 @@ export class PrismaPetsRepository implements PetsRepository {
       take: 20,
     });
 
-    return pets;
+    return { pets, count };
   }
 
   async update({ imageUrls, pet }: UpdatePetType): Promise<Pet> {
