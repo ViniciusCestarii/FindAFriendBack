@@ -5,7 +5,6 @@ import { OrganizationAlredyExistsError } from "../errors/organizationAlredyExist
 
 export interface RegisterOrganizationServiceRequest {
   organization: {
-    id?: string | undefined;
     cnpj: string;
     name: string;
     email: string;
@@ -32,7 +31,6 @@ export class RegisterOrganizationService {
     imageUrls,
   }: RegisterOrganizationServiceRequest): Promise<RegisterOrganizationServiceResponse> {
     const passwordHash = await hash(organization.password, 6);
-
     const organizationWithSameEmail =
       await this.organizationsRepository.findByEmail(organization.email);
 

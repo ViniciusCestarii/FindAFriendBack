@@ -7,19 +7,6 @@ import {
 } from "@/types/organizationTypes";
 
 export class PrismaOrganizationsRepository implements OrganizationsRepository {
-  async findByCnpj(cnpj: string): Promise<Organization | null> {
-    const organization = prisma.organization.findUnique({
-      where: {
-        cnpj,
-      },
-    });
-    if (!organization) {
-      return null;
-    }
-
-    return organization;
-  }
-
   async update({
     imageUrls,
     organization,
@@ -72,12 +59,28 @@ export class PrismaOrganizationsRepository implements OrganizationsRepository {
     return createdOrganization;
   }
 
-  async findByEmail(email: string) {
+  async findByEmail(email: string): Promise<Organization | null> {
     const organization = await prisma.organization.findUnique({
       where: {
         email,
       },
     });
+    if (!organization) {
+      return null;
+    }
+    return organization;
+  }
+
+  async findByCnpj(cnpj: string): Promise<Organization | null> {
+    const organization = await prisma.organization.findUnique({
+      where: {
+        cnpj,
+      },
+    });
+    if (!organization) {
+      return null;
+    }
+
     return organization;
   }
 
