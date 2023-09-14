@@ -34,18 +34,19 @@ export class PrismaPetsRepository implements PetsRepository {
       };
     }
 
-    delete petSearchData.fase;
+    petFilters.isAdopted = petSearchData.isAdopted;
+    petFilters.specie = petSearchData.specie;
 
     const count = await prisma.pet.count({
       where: {
-        ...petSearchData,
+        ...petFilters,
         organization: organizationSearchData,
       },
     });
 
     const pets = await prisma.pet.findMany({
       where: {
-        ...petSearchData,
+        ...petFilters,
         organization: organizationSearchData,
       },
       include: {
