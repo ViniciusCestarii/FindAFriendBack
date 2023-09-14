@@ -23,6 +23,7 @@ describe("Create pet (e2e)", () => {
       size: "SMALL",
       specie: "DOG",
       imageUrls: undefined,
+      energyLevel: 1,
     };
 
     const createPetResponse = await request(app.server)

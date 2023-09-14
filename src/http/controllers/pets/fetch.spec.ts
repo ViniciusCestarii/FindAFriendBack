@@ -38,6 +38,7 @@ describe("Fetch a pet (e2e)", () => {
         organizationId: organization.id,
         description: "some description",
         isAdopted: false,
+        energyLevel: 1,
       },
     });
 

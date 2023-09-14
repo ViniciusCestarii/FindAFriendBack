@@ -26,6 +26,7 @@ describe("Update a pet (e2e)", () => {
         organizationId: id,
         description: "some description",
         isAdopted: false,
+        energyLevel: 1,
       },
     });
 

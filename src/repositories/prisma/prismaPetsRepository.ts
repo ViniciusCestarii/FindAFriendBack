@@ -36,6 +36,7 @@ export class PrismaPetsRepository implements PetsRepository {
 
     petFilters.isAdopted = petSearchData.isAdopted;
     petFilters.specie = petSearchData.specie;
+    petFilters.energyLevel = petSearchData.energyLevel;
 
     const count = await prisma.pet.count({
       where: {

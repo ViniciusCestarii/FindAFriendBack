@@ -19,6 +19,7 @@ export const searchMany = async (
     page: z.coerce.number(),
     city: z.string().optional(),
     state: z.string().optional(),
+    energyLevel: z.coerce.number().optional(),
   });
 
   const {
@@ -32,6 +33,7 @@ export const searchMany = async (
     organizationId,
     state,
     page,
+    energyLevel,
   } = searchManyPetBodySchema.parse(request.body);
 
   const searchManyGymService = makeSearchManyPetsService();
@@ -44,6 +46,7 @@ export const searchMany = async (
       size,
       specie,
       isAdopted,
+      energyLevel,
     },
     organizationSearchData: {
       organizationId,

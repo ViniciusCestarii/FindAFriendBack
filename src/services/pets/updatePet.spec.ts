@@ -48,6 +48,7 @@ describe("Update Pet Service", () => {
         sex: "FEMALE",
         size: "SMALL",
         specie: "DOG",
+        energyLevel: 1,
       },
     });
 

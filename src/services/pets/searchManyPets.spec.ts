@@ -59,6 +59,7 @@ describe("Search Many Pets Service", () => {
         sex: "MALE",
         size: "SMALL",
         specie: "DOG",
+        energyLevel: 1,
       },
     });
 
@@ -71,6 +72,7 @@ describe("Search Many Pets Service", () => {
         sex: "MALE",
         size: "SMALL",
         specie: "DOG",
+        energyLevel: 1,
       },
     });
 
@@ -83,6 +85,7 @@ describe("Search Many Pets Service", () => {
         sex: "MALE",
         size: "SMALL",
         specie: "DOG",
+        energyLevel: 1,
       },
     });
 
@@ -109,6 +112,7 @@ describe("Search Many Pets Service", () => {
         sex: "MALE",
         size: "SMALL",
         specie: "DOG",
+        energyLevel: 1,
       },
     });
 
@@ -121,6 +125,7 @@ describe("Search Many Pets Service", () => {
         sex: "MALE",
         size: "SMALL",
         specie: "DOG",
+        energyLevel: 1,
       },
     });
 
@@ -133,6 +138,7 @@ describe("Search Many Pets Service", () => {
         sex: "MALE",
         size: "SMALL",
         specie: "DOG",
+        energyLevel: 1,
       },
     });
 
@@ -145,6 +151,7 @@ describe("Search Many Pets Service", () => {
         sex: "MALE",
         size: "SMALL",
         specie: "DOG",
+        energyLevel: 1,
       },
     });
 
@@ -157,6 +164,7 @@ describe("Search Many Pets Service", () => {
         sex: "MALE",
         size: "SMALL",
         specie: "DOG",
+        energyLevel: 1,
       },
     });
 
@@ -175,24 +183,26 @@ describe("Search Many Pets Service", () => {
     inMemoryPetsRepository.create({
       pet: {
         name: "John Doe",
-        birthDate: new Date("2021-09-09"),
+        birthDate: new Date(),
         description: "description",
         organizationId: organizationId1,
         sex: "FEMALE",
         size: "SMALL",
         specie: "DOG",
+        energyLevel: 1,
       },
     });
 
     inMemoryPetsRepository.create({
       pet: {
         name: "John Doe",
-        birthDate: new Date("2021-09-09"),
+        birthDate: new Date(),
         description: "description",
         organizationId: organizationId1,
         sex: "MALE",
         size: "SMALL",
         specie: "DOG",
+        energyLevel: 1,
       },
     });
 
@@ -205,6 +215,7 @@ describe("Search Many Pets Service", () => {
         sex: "MALE",
         size: "SMALL",
         specie: "DOG",
+        energyLevel: 1,
       },
     });
 
@@ -212,11 +223,12 @@ describe("Search Many Pets Service", () => {
       pet: {
         name: "John Doe",
         birthDate: new Date("2021-09-09"),
-        description: "description",
+        description: "i wont appear",
         organizationId: organizationId2,
         sex: "MALE",
         size: "SMALL",
         specie: "BIRD",
+        energyLevel: 1,
       },
     });
 
@@ -224,11 +236,12 @@ describe("Search Many Pets Service", () => {
       pet: {
         name: "John Doe",
         birthDate: new Date("2021-09-09"),
-        description: "description",
+        description: "i wont appear",
         organizationId: organizationId2,
         sex: "MALE",
         size: "MEDIUM",
         specie: "DOG",
+        energyLevel: 1,
       },
     });
 
@@ -241,12 +254,13 @@ describe("Search Many Pets Service", () => {
         sex: "MALE",
         size: "SMALL",
         specie: "DOG",
+        energyLevel: 1,
       },
     });
 
     const { pets } = await sut.execute({
       petSearchData: {
-        fase: "YOUNG",
+        fase: "BABY",
         size: "SMALL",
       },
       organizationSearchData: {},

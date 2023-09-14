@@ -24,6 +24,7 @@ describe("Delete pet (e2e)", () => {
         sex: "FEMALE",
         size: "SMALL",
         specie: "DOG",
+        energyLevel: 1,
       },
     });
 

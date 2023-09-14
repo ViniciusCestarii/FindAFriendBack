@@ -29,6 +29,7 @@ describe("Fetch Pet Service", () => {
         size: "LARGE",
         specie: "REPTILE",
         id: petId,
+        energyLevel: 1,
       },
     });
 

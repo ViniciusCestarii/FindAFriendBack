@@ -10,6 +10,7 @@ export interface SearchManyPetsParams {
     size?: $Enums.Size;
     specie?: $Enums.Specie;
     isAdopted?: boolean;
+    energyLevel?: number;
   };
   organizationSearchData: {
     organizationId?: string;

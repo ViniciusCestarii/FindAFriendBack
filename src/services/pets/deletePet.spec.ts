@@ -31,6 +31,7 @@ describe("Create Pet Service", () => {
         phone: "123456",
         state: "RN",
         street: "Rua",
+        cnpj: "123456789",
       },
     });
 
@@ -43,6 +44,7 @@ describe("Create Pet Service", () => {
         sex: "FEMALE",
         size: "SMALL",
         specie: "DOG",
+        energyLevel: 1,
       },
     });
 

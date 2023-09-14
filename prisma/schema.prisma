@@ -34,6 +34,7 @@ enum Size {
 model Pet {
   id             String       @id @default(uuid())
   name           String
+  energyLevel    Int          @map("energy_level")
   sex            Sex
   description    String?
   specie         Specie

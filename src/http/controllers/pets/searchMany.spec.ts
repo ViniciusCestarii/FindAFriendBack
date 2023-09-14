@@ -38,6 +38,7 @@ describe("Search many pets (e2e)", () => {
           sex: "FEMALE",
           size: "SMALL",
           specie: "DOG",
+          energyLevel: 1,
         },
         {
           name: "pet name",
@@ -47,6 +48,7 @@ describe("Search many pets (e2e)", () => {
           sex: "FEMALE",
           size: "SMALL",
           specie: "DOG",
+          energyLevel: 1,
         },
         {
           name: "pet name",
@@ -56,6 +58,7 @@ describe("Search many pets (e2e)", () => {
           sex: "FEMALE",
           size: "SMALL",
           specie: "DOG",
+          energyLevel: 1,
         },
         {
           name: "pet name",
@@ -65,6 +68,7 @@ describe("Search many pets (e2e)", () => {
           sex: "FEMALE",
           size: "SMALL",
           specie: "CAT",
+          energyLevel: 1,
         },
       ],
     });

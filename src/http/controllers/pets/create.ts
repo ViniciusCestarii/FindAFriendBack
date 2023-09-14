@@ -22,6 +22,7 @@ export const create = async (request: FastifyRequest, reply: FastifyReply) => {
     ]),
     imageUrls: z.array(z.string()).optional(),
     isAdopted: z.coerce.boolean().optional(),
+    energyLevel: z.coerce.number(),
   });
 
   const {
@@ -34,6 +35,7 @@ export const create = async (request: FastifyRequest, reply: FastifyReply) => {
     specie,
     imageUrls,
     isAdopted,
+    energyLevel,
   } = createPetBodySchema.parse(request.body);
 
   const createPetService = makeCreatePetService();
@@ -49,6 +51,7 @@ export const create = async (request: FastifyRequest, reply: FastifyReply) => {
         size,
         specie,
         isAdopted,
+        energyLevel,
       },
       imageUrls,
     });

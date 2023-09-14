@@ -28,6 +28,7 @@ export class InMemoryPetsRepository implements PetsRepository {
       createdAt: new Date(),
       updatedAt: new Date(),
       description: pet.description ?? null,
+      energyLevel: pet.energyLevel ?? null,
     };
 
     this.items.push(createdPet);
@@ -103,6 +104,7 @@ export class InMemoryPetsRepository implements PetsRepository {
       id: oldPet.id,
       organizationId: oldPet.organizationId,
       updatedAt: oldPet.updatedAt,
+      energyLevel: Number(pet.energyLevel) ?? oldPet.energyLevel,
     };
 
     this.items[petIndex] = updatedPet;
