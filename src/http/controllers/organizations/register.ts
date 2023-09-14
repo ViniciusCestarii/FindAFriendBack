@@ -57,7 +57,7 @@ export const register = async (
     return reply.status(201).send();
   } catch (err) {
     if (err instanceof OrganizationAlredyExistsError) {
-      return reply.status(401).send(err.message);
+      return reply.status(409).send(err.message);
     }
   }
 };

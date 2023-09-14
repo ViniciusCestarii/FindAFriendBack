@@ -56,7 +56,7 @@ export const create = async (request: FastifyRequest, reply: FastifyReply) => {
     return reply.status(201).send();
   } catch (err) {
     if (err instanceof ResourceNotFound) {
-      return reply.status(401).send(err.message);
+      return reply.status(404).send(err.message);
     }
   }
 };
