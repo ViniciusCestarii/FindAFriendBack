@@ -4,6 +4,8 @@
   "description": "Find a Friend",
   "main": "index.js",
   "scripts": {
+    "fillDb": "tsx ./src/utils/db/fillDb.ts",
+    "cleanDb": "tsx ./src/utils/db/cleanDb.ts",
     "dev": "tsx watch src/server.ts",
     "start": "node build/server.js",
     "build": "tsup src --out-dir build",
