@@ -18,6 +18,7 @@ export interface SearchManyPetsParams {
     state?: string;
   };
   page: number;
+  petNumber: number;
 }
 
 export interface SerachManyPetsReturn {

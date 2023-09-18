@@ -14,6 +14,7 @@ export class PrismaPetsRepository implements PetsRepository {
     petSearchData,
     organizationSearchData,
     page,
+    petNumber,
   }: SearchManyPetsParams): Promise<SerachManyPetsReturn> {
     const petFilters: Prisma.PetWhereInput = {};
 
@@ -61,8 +62,8 @@ export class PrismaPetsRepository implements PetsRepository {
       orderBy: {
         name: "asc",
       },
-      skip: (page - 1) * 20,
-      take: 20,
+      skip: (page - 1) * petNumber,
+      take: petNumber,
     });
 
     return { pets, count };

@@ -17,6 +17,7 @@ export const searchMany = async (
     fase: z.enum(["BABY", "YOUNG", "ADULT", "SENIOR"]).optional(),
     isAdopted: z.coerce.boolean().optional(),
     page: z.coerce.number(),
+    petNumber: z.coerce.number().default(16),
     city: z.string().optional(),
     state: z.string().optional(),
     energyLevel: z.coerce.number().optional(),
@@ -34,6 +35,7 @@ export const searchMany = async (
     state,
     page,
     energyLevel,
+    petNumber,
   } = searchManyPetBodySchema.parse(request.body);
 
   const searchManyGymService = makeSearchManyPetsService();
@@ -54,6 +56,7 @@ export const searchMany = async (
       state,
     },
     page,
+    petNumber,
   });
 
   return reply.status(200).send({

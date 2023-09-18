@@ -8,11 +8,13 @@ export class SearchManyPetsService {
     organizationSearchData,
     petSearchData,
     page,
+    petNumber,
   }: SearchManyPetsParams): Promise<SerachManyPetsReturn> {
     const { pets, count } = await this.petsRepository.searchMany({
       organizationSearchData,
       petSearchData,
       page,
+      petNumber,
     });
 
     return {
