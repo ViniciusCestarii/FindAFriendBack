@@ -8,7 +8,8 @@ This project is the Server Side of Find A Friend containing:
 
 - API for all the entities of the application
 - End to end and unitary tests
-- OAuth using JWT
+- Auth using JWT token
+- Solid principles
 - Business rules
 
 ## 👨‍💻 What makes up Find A Friend Back
