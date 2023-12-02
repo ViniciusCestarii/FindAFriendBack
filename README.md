@@ -43,8 +43,12 @@ Required to install and setup:
    ```
    docker run --name finda-a-friend -e POSTGRESQL_USERNAME=docker -e POSTGRESQL_PASSWORD=docker -e POSTGRESQL_DATABASE=findafriend -p 5432:5432 bitnami/postgresql
    ```
-6. in root of the project run: `npm run dev`
-7. now your server is running on default port 3333, just acess localhost: http://localhost:3333 and enjoy!
+   or using:
+   ```
+   docker compose up -d
+   ```
+7. in root of the project run: `npm run dev`
+8. now your server is running on default port 3333, just acess localhost: http://localhost:3333 and enjoy!
 
 ### For development i made some extra commands:
 - test end to end
