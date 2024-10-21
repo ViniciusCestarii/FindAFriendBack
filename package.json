@@ -22,7 +22,7 @@
   "author": "Vinicius Cestari",
   "license": "ISC",
   "devDependencies": {
-    "@rocketseat/eslint-config": "2.1.0",
+    "@rocketseat/eslint-config": "2.2.2",
     "@types/bcryptjs": "2.4.2",
     "@types/node": "20.5.2",
     "@types/supertest": "2.0.12",
